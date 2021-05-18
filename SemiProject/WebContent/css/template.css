@@ -132,6 +132,7 @@
 		.searchrank-list{
 			display: none;
 			padding: 0 10px;
+			background-color: white;
 		}
 		.searchrank-area{
 			font-size: 13px;
