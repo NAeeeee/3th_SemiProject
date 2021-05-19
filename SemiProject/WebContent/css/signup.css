@@ -3,11 +3,24 @@
 	border-top:1px solid rgba(0,0,0,0.4);
 	padding-top: 40px;
 }
+.singup-form>span{
+	font-size: 12px;
+	width:100%;
+	margin-left: 327px;
+}
+
+.hidden{
+	visibility: hidden;
+}
+.visible{
+	visibility: visible;
+	color:#ff6b6b;
+}
 .singup-form > div{
 	width:95%;
 	display: flex;
 	justify-content: space-between;
-	padding: 1.5rem;
+	padding: 1.5rem 1.5rem 0 1.5rem;
 	font-size: 12px;
 }
 .singup-form>div>input{
