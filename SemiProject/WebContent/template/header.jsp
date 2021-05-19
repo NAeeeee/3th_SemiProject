@@ -1,8 +1,18 @@
+<%@page import="semi.beans.MemberDto"%>
+<%@page import="semi.beans.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <%
-   String root = request.getContextPath();
+	String root = request.getContextPath();
+	Integer memberNo = (Integer) session.getAttribute("member");
+	MemberDao memberDao = new MemberDao();
+	boolean isLogin = false;
+	MemberDto memberDto = null;
+	if(memberNo!=null){
+		isLogin=true;
+		memberDto = memberDao.getMember(memberNo);
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -18,11 +28,21 @@
 </head>
 <body class="align-column">
 <div class="member-area container-1200">
+
+	<% if(isLogin){ %>
+	<ul class="ul-row member-menu ">
+		<li><a class="change-a" href="#"><%=memberDto.getMemberId()%></a></li>
+		<li><a class="change-a" href="#">QnA</a></li>
+		<li><a class="change-a" href="<%=root%>/member/logout.kh">로그아웃</a></li>
+	</ul>
+	<%}else{ %>
 	<ul class="ul-row member-menu ">
 		<li><a class="change-a" href="<%=root%>/member/signup.jsp">회원가입</a></li>
 		<li><a class="change-a" href="#">QnA</a></li>
 		<li><a class="change-a" href="<%=root%>/member/login.jsp">로그인</a></li>
 	</ul>
+	<%} %>	
+	
 </div>
 <div class="line"></div>
 <header class="container-1200 align-column ">
