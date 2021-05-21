@@ -53,7 +53,9 @@
 		}); */
 	});
 </script>			
+
 <jsp:include page="/template/header.jsp"></jsp:include>
+
 	<div class="align-column">
 		<h3 style="margin-bottom: 40px;font-size:40px;" class="site-color">JOIN US</h3>
 	<form class="container-500 align-column singup-form" action="signup.kh" method="post">
