@@ -253,6 +253,15 @@ textarea.form-input {
 	background-color: #ff6b6b;
 	color:white;
 }
+.form-btn-login{
+	font-size: 15px;
+	margin-top: 30px;
+	margin-bottom: 15px;
+	margin-left: 75px;
+	font-size: 20px;
+	width: 70%;
+	height: 45px;
+}
 
 /*
 	Pagination 스타일
@@ -332,4 +341,17 @@ select{
 	border:none;
 	border-bottom: 1px solid rgba(0,0,0,0.4);
 	padding: 0 1rem;
+}
+
+.link-box{
+	text-align: center;		
+}
+
+.link-box > li > a{
+	color: #b3b3b3;
+}
+
+.link-box > li{	
+	display:inline-block;
+	margin: 10px 20px 15px 20px;
 }
