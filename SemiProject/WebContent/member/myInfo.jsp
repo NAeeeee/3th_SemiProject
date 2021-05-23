@@ -16,6 +16,7 @@
 	MemberDao memberDao = new MemberDao();
 	MemberDto memberDto = memberDao.getMember(memberNo);
 %>
+
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
 	window.addEventListener("load",function(){
@@ -55,7 +56,7 @@
 			}
 		}); 
 	});
-	
+  
 	$(function(){
 		$("#memberDelete").click(function(){
 			var result = confirm('정말 탈퇴하시겠습니까?');
