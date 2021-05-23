@@ -16,7 +16,7 @@
 	MemberDao memberDao = new MemberDao();
 	MemberDto memberDto = memberDao.getMember(memberNo);
 %>
-
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
 	window.addEventListener("load",function(){
 		//회원가입 취소 버튼 : 클릭 뒤로가기
@@ -55,6 +55,16 @@
 			}
 		}); 
 	});
+	
+	$(function(){
+		$("#memberDelete").click(function(){
+			var result = confirm('정말 탈퇴하시겠습니까?');
+			
+			if(result){
+				location.replace("memberDelete.kh?memberNo=<%=memberNo%>");
+			}
+		})
+	})
 </script>
 <jsp:include page="/template/header.jsp"></jsp:include>
 
@@ -111,7 +121,7 @@
 		<aside class="myInfo-aside">
 			<h2 class="tit">MYPAGE</h2>
 			<ul class="menu" >
-				<li class="on"><a href="myInfo.jsp" id="edit-info">회원정보 수정 / 탈퇴</a></li>
+				<li class="on"><a href="myInfo_check.jsp" id="edit-info">회원정보 수정 / 탈퇴</a></li>
 				<li><a href="#">주문목록 / 배송조회</a></li>
 				<li><a href="#">리뷰관리</a></li>				
 				<li><a href="#">배송지 / 환불계좌 관리</a></li>
@@ -122,36 +132,39 @@
 		</aside>
 		
 		<!-- 컨텐츠영역 -->
-		<section class="myInfo-section">
+		<section class="myInfo-section ">
 			<article class="myInfo-article">
 				<div class="align-column">
 					<h3 style="margin-bottom: 40px;font-size:40px;" class="site-color">회원정보 수정</h3>
-					<form class="container-500 align-column singup-form" action="memberEdit.kh" method="post">
-						<input type="hidden" name="memberNo" value="<%=memberNo %>">
-						<div><span>아이디</span><span style="width: 70%; text-align: left;"><%=memberDto.getMemberId() %></span></div>
-						<input type="hidden" name="memberId" value="<%=memberDto.getMemberId() %>">
-						<span class="hidden">아이디는 4~20자 영문 소문자,숫자 조합으로 등록해주세요</span>
-						<div><span>비밀번호</span><input type="password" placeholder="6-20자:영문,숫자,특수문자조합(!@#$)" name="memberPw" required></div>
-						<span class="hidden">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
-						<div><span>새 비밀번호</span><input type="password" placeholder="6-20자:영문,숫자,특수문자조합(!@#$)" name="newMemberPw" class="js_pw" required></div>
-						<span class="hidden">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
-						<div><span>새 비밀번호 확인</span><input type="password" class="js_pw_c" required></div>
-						<span class="hidden">비밀번호를 확인해주세요</span>
-						<div><span>휴대전화</span><input type="text" name="memberPhone" value="<%=memberDto.getMemberPhone() %>" required></div>
-						<span class="hidden">.</span>
-						<div><span>생일</span><input type="date" name="memberBirth" value="<%=memberDto.getMemberBirth() %>" required></div>
-						<span class="hidden">.</span>
-						<div><span>이메일</span><input type="email" name="memberEmail" value="<%=memberDto.getMemberEmail() %>" required></div>
-						<span class="hidden">.</span>
-						<div><span>주소</span><input type="text" name="memberAddress" value="<%=memberDto.getMemberAddress() %>" required></div>
-						<span class="hidden">.</span>						
-						<div style="width: 80% ;border-bottom:1px solid rgba(0,0,0,0.4);margin-bottom:40px"></div>
-						
-						<div class="signup-button-area">
-							<button type="submit" class="form-btn form-btn-positive btn">수정</button>
-							<button type="reset" class="form-btn form-btn-normal btn js_cancel_signup">취소</button>
-						</div>
-					</form>
+					<div class="text-left">
+						<form class="container-800 align-column singup-form " action="memberEdit.kh" method="post">
+							<input type="hidden" name="memberNo" value="<%=memberNo %>">
+							<div><span>아이디</span><span style="width: 70%; text-align: left;"><%=memberDto.getMemberId() %></span></div>
+							<input type="hidden" name="memberId" value="<%=memberDto.getMemberId() %>">
+							<span class="hidden">아이디는 4~20자 영문 소문자,숫자 조합으로 등록해주세요</span>
+							<div><span>비밀번호</span><input type="password" placeholder="6-20자:영문,숫자,특수문자조합(!@#$)" name="memberPw" required></div>
+							<span class="hidden">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
+							<div><span>새 비밀번호</span><input type="password" placeholder="6-20자:영문,숫자,특수문자조합(!@#$)" name="newMemberPw" class="js_pw" required></div>
+							<span class="hidden">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
+							<div><span>새 비밀번호 확인</span><input type="password" class="js_pw_c" required></div>
+							<span class="hidden">비밀번호를 확인해주세요</span>
+							<div><span>휴대전화</span><input type="text" name="memberPhone" value="<%=memberDto.getMemberPhone() %>" required></div>
+							<span class="hidden">.</span>
+							<div><span>생일</span><input type="date" name="memberBirth" value="<%=memberDto.getMemberBirth() %>" required></div>
+							<span class="hidden">.</span>
+							<div><span>이메일</span><input type="email" name="memberEmail" value="<%=memberDto.getMemberEmail() %>" required></div>
+							<span class="hidden">.</span>
+							<div><span>주소</span><input type="text" name="memberAddress" value="<%=memberDto.getMemberAddress() %>" required></div>
+							<span class="hidden">.</span>						
+							<div style="width: 100% ;border-bottom:1px solid rgba(0,0,0,0.4);margin-bottom:40px"></div>
+							
+							<div class="signup-button-area">
+								<button type="submit" class="form-btn form-btn-positive btn" style="margin-right: 30px;width:30%;">수정</button>								
+								<button type="reset" class="form-btn form-btn-normal btn js_cancel_signup" style="margin-right: 30px;width:30%;">취소</button>
+								<input type="button" id="memberDelete" class="form-btn form-btn-negative btn" value="회원탈퇴" style="margin-right: 30px; width:30%;">
+							</div>
+						</form>
+					</div>
 				</div>
 			</article>
 		</section>

@@ -1,7 +1,7 @@
 package semi.beans;
 
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -87,6 +87,18 @@ public class MemberDao {
 		
 		con.close();
 		
+		return count > 0;
+	}
+	
+	public boolean delete(int memberNo) throws Exception {
+		Connection con = JdbcUtils.getConnection();
+		
+		String sql = "delete member where member_no = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, memberNo	);
+		int count = ps.executeUpdate();
+		
+		con.close();
 		return count > 0;
 	}
 }
