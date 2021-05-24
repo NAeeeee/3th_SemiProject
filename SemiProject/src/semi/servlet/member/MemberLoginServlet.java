@@ -1,6 +1,7 @@
 package semi.servlet.member;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 
 import javax.servlet.ServletException;
@@ -24,12 +25,18 @@ public class MemberLoginServlet extends HttpServlet{
 			memberDto.setMemberPw(req.getParameter("memberPw"));
 			MemberDao memberDao = new MemberDao();
 			Integer memberNo = memberDao.login(memberDto);
+			
+			resp.setContentType("text/html; charset=UTF-8");
+			PrintWriter writer = resp.getWriter();
+						
 			if(memberNo != null) {
 				req.getSession().setAttribute("member", memberNo);
 				resp.sendRedirect(req.getContextPath());
 			}else {
-				resp.sendRedirect("login.jsp");
+				writer.println("<script>alert('비밀번호가 맞지 않습니다.'); location.href='"+"login.jsp"+"';</script>");
 			}
+			
+			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			resp.sendError(500);
