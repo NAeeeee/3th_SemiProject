@@ -9,7 +9,6 @@
 	boolean isLogin = session.getAttribute("member") != null;
 	
 	if(!isLogin){	
-		System.out.println(isLogin);
 		response.sendRedirect("login.jsp");
 		return;
 	}
@@ -169,10 +168,6 @@
 					</div>
 				</div>
 			</article>
-		</section>
-		
+		</section>		
 	</main>
-
-
-	
 <jsp:include page="/template/footer.jsp"></jsp:include>

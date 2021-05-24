@@ -89,7 +89,6 @@ public class MemberDao {
 		
 		return count > 0;
 	}
-	
 	public boolean delete(int memberNo) throws Exception {
 		Connection con = JdbcUtils.getConnection();
 		
