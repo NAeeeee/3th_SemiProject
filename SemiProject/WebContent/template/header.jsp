@@ -31,7 +31,7 @@
 
 	<% if(isLogin){ %>
 	<ul class="ul-row member-menu ">
-		<li><a class="change-a" href="<%=root %>/member/myInfo.jsp">마이페이지</a></li>
+		<li><a class="change-a" href="<%=root %>/member/myInfo_check.jsp">마이페이지</a></li>
 		<li><a class="change-a" href="#">QnA</a></li>
 		<li><a class="change-a" href="<%=root%>/member/logout.kh">로그아웃</a></li>
 	</ul>
