@@ -81,7 +81,7 @@
 			<option value="F">여자</option>
 		</select>
 		</div>
-		<div style="width: 100% ;border-bottom:1px solid rgba(0,0,0,0.4);margin-bottom:40px"></div>
+		<div style="width: 100% ;border-bottom:1px solid rgba(0,0,0,0.4);margin-bottom:40px;margin-top: 40px"></div>
 		
 		<div class="signup-button-area">
 			<button type="submit" class="form-btn form-btn-positive btn">가입</button>
