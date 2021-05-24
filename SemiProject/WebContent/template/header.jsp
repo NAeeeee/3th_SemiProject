@@ -82,7 +82,7 @@
 			</div>
 			<span class="site-color">▼</span>
 		</div>
-		<div class="searchrank-list">
+		<div class="searchrank-list" style="background-color: white;">
 			<div class="line text-center keyword"><span>인기검색어</span></div>
 			<% for(int i =1;i<11;i++){ %>
 			<div class="searchrank-item">
