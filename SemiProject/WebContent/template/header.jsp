@@ -5,7 +5,7 @@
     
 <%
 	String root = request.getContextPath();
-	Integer memberNo = (Integer) session.getAttribute("member");
+ 	Integer memberNo = (Integer) session.getAttribute("member");
 	MemberDao memberDao = new MemberDao();
 	boolean isLogin = false;
 	MemberDto memberDto = null;
@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/common.css">
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/template.css">
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/signup.css">
+    <link rel="stylesheet" type="text/css" href="<%= root%>/css/list.css">
    <style>
 		
    </style>
