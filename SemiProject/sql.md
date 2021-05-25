@@ -24,3 +24,5 @@ member_join date default sysdate not null
 
 create sequence member_seq nocache;
 
+
+
