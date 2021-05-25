@@ -1,9 +1,10 @@
 package semi.beans;
 
 import java.sql.Connection;
-import java.sql.Date;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 
 public class MemberDao {
 
@@ -67,4 +68,36 @@ public class MemberDao {
 		return md;
 	}
 	
+	public boolean changeInformation(MemberDto memberDto, String newPw) throws Exception {
+		Connection con = JdbcUtils.getConnection();
+		
+		String sql = "update member "
+						+ "set member_pw=?, member_birth=?, member_email=?, member_phone=?, member_address=? "
+						+ "where member_id=? and member_no=? and member_pw=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, newPw);
+		ps.setDate(2, memberDto.getMemberBirth());
+		ps.setString(3, memberDto.getMemberEmail());
+		ps.setString(4, memberDto.getMemberPhone());
+		ps.setString(5, memberDto.getMemberAddress());
+		ps.setString(6, memberDto.getMemberId());
+		ps.setInt(7, memberDto.getMemberNo());
+		ps.setString(8, memberDto.getMemberPw());
+		int count = ps.executeUpdate();
+		
+		con.close();
+		
+		return count > 0;
+	}
+	public boolean delete(int memberNo) throws Exception {
+		Connection con = JdbcUtils.getConnection();
+		
+		String sql = "delete member where member_no = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, memberNo	);
+		int count = ps.executeUpdate();
+		
+		con.close();
+		return count > 0;
+	}
 }

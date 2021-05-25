@@ -69,35 +69,87 @@
 	      
 	   </div>
     </div>
-   
-   <div class="product-box ">
-   	<div class="box">
-	   	<div class="item-wrap">
-	      <ul class="item align-row ">
-	      	<%for(BookDto bookDto:bookList){ %>
-		      	<li class="row">
-		      		<div >
-		      			<a href="bookDetail.jsp?bookNo=<%=bookDto.getBookNo()%>"><img src="<%=bookDto.getBookImg()%>" class="item-image"></a>
-	
-		      		</div>
-		      		<div class="item-content">
-		      			<div><a href="#"><%=bookDto.getBookName() %></a></div>
-		      			<div><%=bookDto.getBookWriter() %></div>
-		      			<div><%=bookDto.getBookPrice() %></div>
-		      		</div>
-		      	</li>
-		      	 <%} %>
-	      </ul>
+
+    
+   <div class="infinite">
+	   <div class="list"> <!--1페이지 내용물 -->
+		   <div class="product-box ">
+		   	<div class="box">
+			   	<div class="item-wrap">
+			      <ul class="item align-row ">
+			      	<%for(BookDto bookDto:bookList){ %>
+				      	<li class="row">
+				      		<div >
+				      			<a href="bookDetail.jsp?bookNo=<%=bookDto.getBookNo()%>"><img src="<%=bookDto.getBookImg()%>" class="item-image"></a>
+			
+				      		</div>
+				      		<div class="item-content">
+				      			<div><a href="#"><%=bookDto.getBookName() %></a></div>
+				      			<div><%=bookDto.getBookWriter() %></div>
+				      			<div><%=bookDto.getBookPrice() %></div>
+				      		</div>
+				      	</li>
+				      	 <%} %>
+			      </ul>
+			   </div>
+		   </div>
+		   </div>
+	   </div>
+	   <div class="list"> <!--2페이지 내용물 -->
+		   <div class="product-box ">
+		   	<div class="box">
+			   	<div class="item-wrap">
+			      <ul class="item align-row ">
+			      	<%for(BookDto bookDto:bookList){ %>
+				      	<li class="row">
+				      		<div >
+				      			<a href="bookDetail.jsp?bookNo=<%=bookDto.getBookNo()%>"><img src="<%=bookDto.getBookImg()%>" class="item-image"></a>
+			
+				      		</div>
+				      		<div class="item-content">
+				      			<div><a href="#"><%=bookDto.getBookName() %></a></div>
+				      			<div><%=bookDto.getBookWriter() %></div>
+				      			<div><%=bookDto.getBookPrice() %></div>
+				      		</div>
+				      	</li>
+				      	 <%} %>
+			      </ul>
+			   </div>
+		   </div>
+		   </div>
+	   </div>
+	   <div class="list"> <!--2페이지 내용물 -->
+		   <div class="product-box ">
+		   	<div class="box">
+			   	<div class="item-wrap">
+			      <ul class="item align-row ">
+			      	<%for(BookDto bookDto:bookList){ %>
+				      	<li class="row">
+				      		<div >
+				      			<a href="bookDetail.jsp?bookNo=<%=bookDto.getBookNo()%>"><img src="<%=bookDto.getBookImg()%>" class="item-image"></a>
+			
+				      		</div>
+				      		<div class="item-content">
+				      			<div><a href="#"><%=bookDto.getBookName() %></a></div>
+				      			<div><%=bookDto.getBookWriter() %></div>
+				      			<div><%=bookDto.getBookPrice() %></div>
+				      		</div>
+				      	</li>
+				      	 <%} %>
+			      </ul>
+			   </div>
+		   </div>
+		   </div>
 	   </div>
    </div>
-   </div>
+   <div class="infinite-pagination">페이지네이션</div>
    
    
    <div class="row text-right">
       <a href="bookInsert.jsp" class="link-btn">책 등록</a>
    </div>
    
-   <div class="row text-center">
+  <!--  <div class="row text-center">
       <div class="pagination">
          <a href="#">&lt;</a>
          <a href="#">1</a>
@@ -112,7 +164,8 @@
          <a href="#">10</a>
          <a href="#">&gt;</a>
       </div>
-   </div>
+   </div> -->
+
    
 </div>
 

@@ -12,7 +12,7 @@
 		// 회원가입검사 테스트 오래걸려서 주석처리 해놀게요
 		
 		//회원가입 regex 검사
-		/* //아이디 검사
+		//아이디 검사
 		var js_id = document.querySelector(".js_id");
 		js_id.addEventListener("blur",function(){
 			var id_regex = /^[\da-z]{4,20}$/;
@@ -50,7 +50,9 @@
 				this.parentElement.nextElementSibling.classList.add("visible");
 				this.value="";
 			}
-		}); */
+
+		}); 
+
 	});
 </script>			
 
@@ -61,9 +63,9 @@
 	<form class="container-500 align-column singup-form" action="signup.kh" method="post">
 		<div><span>아이디</span><input type="text" placeholder="4-20자:영문 소문자,숫자조합" name="memberId" class="js_id" required></div>
 		<span class="hidden">아이디는 4~20자 영문 소문자,숫자 조합으로 등록해주세요</span>
-		<div><span>비밀번호</span><input type="text" placeholder="6-20자:영문,숫자,특수문자조합(!@#$)" name="memberPw" class="js_pw" required></div>
+		<div><span>비밀번호</span><input type="password" placeholder="6-20자:영문,숫자,특수문자조합(!@#$)" name="memberPw" class="js_pw" required></div>
 		<span class="hidden">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
-		<div><span>비밀번호 확인</span><input type="text" class="js_pw_c" required></div>
+		<div><span>비밀번호 확인</span><input type="password" class="js_pw_c" required></div>
 		<span class="hidden">비밀번호를 확인해주세요</span>
 		<div><span>이름</span><input type="text" name="memberName" required></div>
 		<span class="hidden">.</span>
