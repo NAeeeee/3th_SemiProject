@@ -24,6 +24,7 @@ member_join date default sysdate not null
 
 create sequence member_seq nocache;
 
+
 #book 테이블 생성, sequence 생성
 create table book(
 book_no number(10) primary key,

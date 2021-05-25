@@ -16,11 +16,20 @@
  			color: white;
  			
  		}
- 		
  		.change-a{
  			display:inline-block;
  			padding: 0.5rem 1.25rem;
  			transition: background-color 0.2s linear;
+ 		}
+ 		.change-a_noani:hover, .change-a_noani:active {
+ 			text-decoration: none; 
+ 			background-color: #f78c4d; 
+ 			color: white;
+ 			
+ 		}
+ 		.change-a_noani{
+ 			display:inline-block;
+ 			padding: 0.5rem 1.25rem;
  		}
 		.tab { white-space: pre; }
 		.site-color{
@@ -169,34 +178,57 @@
 		}
 		.searchrank-item-text{
 			width:100px;
+			
+			position: absolute;
+			left: 35px;
+		}
+		.overflow{
 			overflow: hidden;
   			text-overflow: ellipsis;
 			white-space: nowrap;
-			position: absolute;
-			left: 35px;
 		}
 		.main-menu{
  			margin-top: 24px;
  		}
- 		.main-menu>li:hover>.sub-menu{
+ 		.main-menu>li:hover>a{
+ 			background-color: #ff9f43;
+ 		}
+ 		.main-menu>li:hover>.sub-menu,.sub-menu>li:hover>.sub-sub-menu{
  			display: block;
  			background-color: #ff9f43;
- 			
  			visibility:visible;
  		}
  		.main-menu>li:hover>a{
- 			background-color: #ff9f43;
+ 			color:white;
+ 		}
+ 		.sub-menu>li:hover>a{
+ 			background-color: #f78c4d;
  			color:white;
  		}
  		.sub-menu{
  			visibility:hidden;
- 			transition: all 0.2s linear;
+ 			transition: background-color 0.2s linear;
  			position: absolute;
  			color:white;
  			background-color: white;
  		}
- 		.sub-menu>li>a{
+ 		.sub-sub-menu{
+ 			visibility:hidden;
  			color:white;
+ 			transition: background-color 0.2s linear;
+ 			position: absolute;
+ 			right: -129px;
+ 			top:0;
+ 		}
+ 		
+ 		.sub-menu>li>a,.sub-sub-menu>li>a{
+ 			color:white;
+ 		}
+ 		.sub-menu>li:hover,.sub-sub-menu>li:hover{
+ 			background-color:#f78c4d;
+ 		}
+ 		.sub-menu>li{
+ 			display:flex;
  		}
  		footer{
  			display: flex;

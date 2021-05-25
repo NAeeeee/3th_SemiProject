@@ -6,7 +6,7 @@
     
 <%
 	String root = request.getContextPath();
- 	Integer memberNo = (Integer) session.getAttribute("member");
+	Integer memberNo = (Integer) session.getAttribute("member");
 	MemberDao memberDao = new MemberDao();
 	boolean isLogin = false;
 	MemberDto memberDto = null;
@@ -23,7 +23,6 @@
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/common.css">
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/template.css">
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/signup.css">
-    <link rel="stylesheet" type="text/css" href="<%= root%>/css/list.css">
    <style>
 		
    </style>
@@ -84,13 +83,13 @@
 			</div>
 			<span class="site-color">▼</span>
 		</div>
-		<div class="searchrank-list">
+		<div class="searchrank-list" style="background-color: white;">
 			<div class="line text-center keyword"><span>인기검색어</span></div>
 			<% for(int i =1;i<11;i++){ %>
 			<div class="searchrank-item">
 				<div>
 					<span class="site-color"><%=i %>.</span>
-					<a href="#"><span class="searchrank-item-text">명탐정코난asdasdasdasdasd</span></a>
+					<a href="#"><span class="searchrank-item-text overflow">명탐정코난asdasdasdasdasd</span></a>
 				</div>
 				<span class="site-color">NEW</span>
 			</div>
@@ -102,12 +101,29 @@
 	<ul class="font-weight-900 ul-row main-menu">
 		<li><a class="site-color change-a" href="#">베스트</a></li>
 		<li><a class="site-color-red change-a"  href="#" >NEW</a></li>
-	<% for(int i =1;i<10;i++){ %>
+	<% for(int i =1;i<12;i++){ %>
 		<li>
 			<a class="change-a" href="#">장르 <%=i %></a>
 			<ul class="sub-menu">
-			<% for(int j =1;j<4;j++){ %>
-				<li><a href="#" class="change-a">서브장르<%=j %></a></li>
+			<% for(int j =1;j<10;j++){ %>
+				<li>
+					<a href="#" class="change-a_noani overflow">임신/출산/육아<%=j %></a>
+					<ul class="sub-sub-menu">
+						<li><a href="#" class="change-a_noani overflow">어른을xzczxczxcxzxc</a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+					</ul>
+				</li>
 			<%} %>
 			</ul>
 		</li>
@@ -115,6 +131,20 @@
 	</ul>
 </div>
 </header>
-
+<script>
+	window.addEventListener("load",function(){
+		var sub_menu = document.querySelectorAll(".sub-menu>li");
+		for(var i=0;i<sub_menu.length;i++){
+			sub_menu[i].addEventListener("mouseover",function(){
+				var wid = -this.children[1].firstElementChild.offsetWidth;
+				console.dir(this.children[1]);
+				console.log(this.children[1]);
+				console.log(String(wid+1)+'px');
+				this.children[1].style.right=String(wid)+'px';
+			})
+		}
+	})
+</script>
 <section style="min-height: 800px" class="container-1200">
+
 
