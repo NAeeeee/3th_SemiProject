@@ -1,12 +1,16 @@
+
+<%@page import="semi.beans.GenreDto"%>
+<%@page import="semi.beans.GenreDao"%>
 <%@page import="semi.beans.BookDto"%>
 <%@page import="java.util.List"%>
 <%@page import="semi.beans.BookDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String root = request.getContextPath();
-	BookDao bookDao=new BookDao();
-	List<BookDto> bookList=bookDao.list();
+	String root = request.getContextPath(); 	
+BookDao bookDao=new BookDao();
+	List<BookDto> bookList=bookDao.list(); 
+	
 %>
 <jsp:include page="/template/header.jsp"></jsp:include>
 

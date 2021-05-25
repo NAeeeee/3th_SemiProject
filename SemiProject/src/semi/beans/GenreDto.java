@@ -2,6 +2,7 @@ package semi.beans;
 
 public class GenreDto {
 	
+	
 	private Long genreNo;
 	private String genreName;
 	private Long genreParents;
@@ -27,7 +28,10 @@ public class GenreDto {
 	public void setGenreParents(Long genreParents) {
 		this.genreParents = genreParents;
 	}
-	
+	@Override
+	public String toString() {
+		return "GenreDto [genreNo=" + genreNo + ", genreName=" + genreName + ", genreParents=" + genreParents + "]";
+	}
 	
 
 }

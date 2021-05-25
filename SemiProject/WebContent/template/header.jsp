@@ -1,4 +1,7 @@
 
+<%@page import="java.util.List"%>
+<%@page import="semi.beans.GenreDto"%>
+<%@page import="semi.beans.GenreDao"%>
 <%@page import="semi.beans.MemberDto"%>
 <%@page import="semi.beans.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -13,6 +16,20 @@
 	if(memberNo!=null){
 		isLogin=true;
 		memberDto = memberDao.getMember(memberNo);
+	}
+	GenreDao genreDao=new GenreDao();
+	List<GenreDto> genreList=genreDao.topGenreList();
+	System.out.println(genreList);
+	for(GenreDto gt : genreList){
+		List<GenreDto> sublist=	genreDao.childGenreList(gt.getGenreNo());
+		System.out.println(gt.getGenreName());
+		for(GenreDto gt2 : sublist){
+			System.out.println("\t"+gt2.getGenreName());
+			List<GenreDto> sublist2=genreDao.childGenreList(gt2.getGenreNo());
+			for(GenreDto gt3 : sublist2){
+				System.out.println("\t"+"\t"+gt3.getGenreName());
+			}
+		}
 	}
 %>
 <!DOCTYPE html>
@@ -101,27 +118,22 @@
 	<ul class="font-weight-900 ul-row main-menu">
 		<li><a class="site-color change-a" href="#">베스트</a></li>
 		<li><a class="site-color-red change-a"  href="#" >NEW</a></li>
-	<% for(int i =1;i<12;i++){ %>
+	<% for(int i=0;i<genreList.size();i++){ %>
 		<li>
-			<a class="change-a" href="#">장르 <%=i %></a>
+			<a class="change-a" href="#"> <%=genreList.get(i).getGenreName() %></a>
 			<ul class="sub-menu">
-			<% for(int j =1;j<10;j++){ %>
+			<% 
+			List<GenreDto> sublist=	genreDao.childGenreList(genreList.get(i).getGenreNo());
+			for(int j =0;j<sublist.size();j++){ %>
 				<li>
-					<a href="#" class="change-a_noani overflow">임신/출산/육아<%=j %></a>
+					<a href="#" class="change-a_noani overflow"><%=sublist.get(j).getGenreName() %></a>
 					<ul class="sub-sub-menu">
-						<li><a href="#" class="change-a_noani overflow">어른을xzczxczxcxzxc</a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
-						<li><a href="#" class="change-a_noani overflow">서브장르<%=j %>-<%=j %></a></li>
+						<%
+						List<GenreDto> sublist2=genreDao.childGenreList(sublist.get(j).getGenreNo());
+						for(int k =0;k<sublist2.size();k++){ %>
+							<li><a href="#" class="change-a_noani overflow"><%=sublist2.get(k).getGenreName() %></a></li>
+						
+						<%} %>
 					</ul>
 				</li>
 			<%} %>
