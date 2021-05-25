@@ -24,3 +24,15 @@ member_join date default sysdate not null
 
 create sequence member_seq nocache;
 
+
+#qna_board 테이블 생성 , sequence 생성
+create table qna_board(
+qna_board_no number(19) primary key,
+qna_board_header varchar2(15) check(qna_board_header in('주문/결제','배송','환불/교환','기타')) not null,
+qna_board_title varchar2(300) not null,
+qna_board_content varchar2(4000) not null,
+qna_board_writer references member(member_no) on delete cascade,
+qna_board_time date default sysdate not null
+);
+
+create sequence qna_board_seq nocache;
