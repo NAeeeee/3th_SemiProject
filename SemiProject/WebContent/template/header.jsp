@@ -32,13 +32,13 @@
 	<% if(isLogin){ %>
 	<ul class="ul-row member-menu ">
 		<li><a class="change-a" href="<%=root %>/member/myInfo_check.jsp">마이페이지</a></li>
-		<li><a class="change-a" href="#">QnA</a></li>
+		<li><a class="change-a" href="<%=root %>/qna/qnaList.jsp">QnA</a></li>
 		<li><a class="change-a" href="<%=root%>/member/logout.kh">로그아웃</a></li>
 	</ul>
 	<%}else{ %>
 	<ul class="ul-row member-menu ">
 		<li><a class="change-a" href="<%=root%>/member/signup.jsp">회원가입</a></li>
-		<li><a class="change-a" href="#">QnA</a></li>
+		<li><a class="change-a" href="<%=root %>/qna/qnaList.jsp">QnA</a></li>
 		<li><a class="change-a" href="<%=root%>/member/login.jsp">로그인</a></li>
 	</ul>
 	<%} %>	
