@@ -9,6 +9,14 @@ public class QnaBoardDto {
    private String qnaBoardContent;
    private int qnaBoardWriter;
    private Date qnaBoardTime;
+   private int qnaBoardReply;
+      
+   public int getQnaBoardReply() {
+	return qnaBoardReply;
+   }
+   public void setQnaBoardReply(int qnaBoardReply) {
+	this.qnaBoardReply = qnaBoardReply;
+   }
    public QnaBoardDto() {
       super();
    }
