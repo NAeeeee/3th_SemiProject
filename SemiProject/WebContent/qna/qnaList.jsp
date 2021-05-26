@@ -7,7 +7,17 @@
 	pageEncoding="UTF-8"%>
 
 <%
+	request.setCharacterEncoding("UTF-8");
+	String qnaBoardHeader = request.getParameter("qnaBoardHeader");
+
+	boolean isHeader = qnaBoardHeader != null ;
 	
+	String headerName;
+	if(qnaBoardHeader == "주문/결제"){
+		headerName = "a";
+	}
+	
+	//페이지 네이셔 구현 코드
 	int pageNo;//현재 페이지 번호
 	try{
 		pageNo = Integer.parseInt(request.getParameter("pageNo"));
@@ -30,14 +40,27 @@
 		pageSize = 10;//기본값 10개
 	}
 	
-	//(2) rownum의 시작번호(startRow)와 종료번호(endRow)를 계산
+	//rownum의 시작번호(startRow)와 종료번호(endRow)를 계산
 	int startRow = pageNo * pageSize - (pageSize-1);
 	int endRow = pageNo * pageSize;
 	
 	QnaBoardDao qnaBoardDao = new QnaBoardDao();
-	List<QnaBoardDto> list = qnaBoardDao.list(startRow, endRow);
+	List<QnaBoardDto> list; 
+		if(isHeader){
+			list = qnaBoardDao.titleList(qnaBoardHeader,startRow, endRow);
+		}
+		else{
+			list = qnaBoardDao.list(startRow, endRow);
+		}
 	
-	int count = qnaBoardDao.getCount();
+	int count;
+		if(isHeader){
+			count = qnaBoardDao.getCountHeader(qnaBoardHeader);
+		}
+		else{
+			count = qnaBoardDao.getCount();
+		}
+		
 	int blockSize = 10;
 	int lastBlock = (count + pageSize - 1) / pageSize;
 	//	int lastBlock = (count - 1) / pageSize + 1;
@@ -126,6 +149,11 @@
 	border-bottom: 1px solid #ff7d9e;
 }
 
+.qna-type > a:hover {
+	background-color: #F2EDED;
+	color: #ff7d9e;
+}
+
 .qna-type > .on{
 	position: relative;
     height: 65px;
@@ -202,6 +230,7 @@
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
 <script>
 	function viewContent(obj){
 		var con = document.querySelectorAll(".con");
@@ -222,18 +251,13 @@
 		var q1 = document.querySelectorAll(".q"+obj.id);
 		var a1 = document.querySelectorAll(".a"+obj.id);
 		
-		console.log(obj.id);
-		console.log(".q"+obj.id);
-		console.log(".a"+obj.id);
 		if(q1 != null){
-			console.log(q1.length);
 			for(var i=0; i<q1.length; i++){
 				q1[i].style.display = "";	
 			}				
 		}
 		
 		if(a1 != null){
-			console.log(a1.length);
 			for(var i=0; i<a1.length; i++){
 				a1[i].style.display = "";	
 			}				
@@ -273,10 +297,10 @@
 	<h2 class="title">고객센터</h2>
 	
 	<div class="tabmenu-black">
-		<a class="on" href="qnaList.jsp"> 
+		<a class="on"> 
 			<span>고객의 소리</span>
 		</a> 
-		<a href="qnaInsert.jsp">
+		<a href="qnaInsert.jsp" >
 			<span>1:1 문의 등록</span>
 		</a> 
 		<a href="qnaMyList.jsp"> 
@@ -290,19 +314,19 @@
 	<h2 class="subtitle">문의목록</h2>
 	
 	<div class="qna-type">
-		<a class="on" href="qnaList.jsp"> 
+		<a class="header-link" href="qnaList.jsp" onclick="headerLinkStyle(this);"> 
 			<span>전체</span>
 		</a> 
-		<a href="#"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=주문/결제" onclick="headerLinkStyle(this);"> 
 			<span>주문/결제</span>
 		</a> 
-		<a href="#"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=배송" onclick="headerLinkStyle(this);"> 
 			<span>배송</span>
 		</a> 
-		<a href="#"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=환불/교환" onclick="headerLinkStyle(this);"> 
 			<span>환불/교환</span>
 		</a> 
-		<a href="#"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=기타" onclick="headerLinkStyle(this);"> 
 			<span>기타</span>
 		</a>
 	</div>
@@ -320,7 +344,6 @@
 				</tr>
 			</thead>
 			
-			<%int idx = 1; %>
 			<%for(QnaBoardDto boardDto : list){ %>
 			<tbody>
 				<tr>
@@ -360,7 +383,6 @@
 					<%} %>
 				<%} %>
 			</tbody>
-			<%idx++; %>
 			<%} %>	
 		</table>
 	</div>

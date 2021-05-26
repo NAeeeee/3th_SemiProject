@@ -265,7 +265,13 @@
 				<pre><%=qnaBoardDto.getQnaBoardContent() %></pre>
 			</div>
 		</div>
-		
+	<!-- 버튼 -->
+       
+     <div class="notice-bottom">
+        <a href="qnaBoardEdit.jsp?qnaBoardNo=<%=qnaBoardNo%>">수정</a>
+        <a href="qnaboardDelete.kh?qnaBoardNo=<%=qnaBoardNo%>" >삭제</a>
+        <a class="notice-list" href="qnaMyList.jsp">나의 1:1 문의목록</a>
+     </div>
 		<div class="notice-reply-line" style="margin-left:10px;">	</div>
 					
 		<div class="notice-reply">
