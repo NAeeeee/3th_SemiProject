@@ -5,7 +5,17 @@
 	pageEncoding="UTF-8"%>
 
 <%
+	request.setCharacterEncoding("UTF-8");
+	String qnaBoardHeader = request.getParameter("qnaBoardHeader");
+
+	boolean isHeader = qnaBoardHeader != null ;
 	
+	String headerName;
+	if(qnaBoardHeader == "주문/결제"){
+		headerName = "a";
+	}
+	
+	//페이지 네이셔 구현 코드
 	int pageNo;//현재 페이지 번호
 	try{
 		pageNo = Integer.parseInt(request.getParameter("pageNo"));
@@ -28,14 +38,27 @@
 		pageSize = 10;//기본값 10개
 	}
 	
-	//(2) rownum의 시작번호(startRow)와 종료번호(endRow)를 계산
+	//rownum의 시작번호(startRow)와 종료번호(endRow)를 계산
 	int startRow = pageNo * pageSize - (pageSize-1);
 	int endRow = pageNo * pageSize;
 	
 	QnaBoardDao qnaBoardDao = new QnaBoardDao();
-	List<QnaBoardDto> list = qnaBoardDao.list(startRow, endRow);
+	List<QnaBoardDto> list; 
+		if(isHeader){
+			list = qnaBoardDao.titleList(qnaBoardHeader,startRow, endRow);
+		}
+		else{
+			list = qnaBoardDao.list(startRow, endRow);
+		}
 	
-	int count = qnaBoardDao.getCount();
+	int count;
+		if(isHeader){
+			count = qnaBoardDao.getCountHeader(qnaBoardHeader);
+		}
+		else{
+			count = qnaBoardDao.getCount();
+		}
+		
 	int blockSize = 10;
 	int lastBlock = (count + pageSize - 1) / pageSize;
 	//	int lastBlock = (count - 1) / pageSize + 1;
@@ -124,6 +147,11 @@
 	border-bottom: 1px solid #ff7d9e;
 }
 
+.qna-type > a:hover {
+	background-color: #F2EDED;
+	color: #ff7d9e;
+}
+
 .qna-type > .on{
 	position: relative;
     height: 65px;
@@ -200,21 +228,38 @@
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
 <script>
-	
-
-
-	function viewContent(){
-		var q1 = document.querySelector("#q1");
-		var a1 = document.querySelector("#a1");
+	function headerLinkStyle(obj){
+		window.onload = function(){
+			var headerLink = document.querySelectorAll(".header-link");
 			
-		if(q1 != null){
-			q1.style.display = "table-row";
-			a1.style.display = "table-row";
+			for(var i=0; i<a.lenght; i++){
+				headerLink[i].classList.remove("on");
+			}
+			
+			headerLink[0].classList.add("on");
 		}
 	}
 	
-	
+</script>
+
+<script>
+   function viewContent(obj){
+      var q1 = document.querySelectorAll(".q1");
+      var a1 = document.querySelectorAll(".a1");
+      
+      for(var i=0; i<10; i++){      
+         if(q1[i] == null)
+            break;
+         
+         q1[i].style.display = "none";
+         a1[i].style.display = "none";
+      }        
+      
+      q1[obj.getAttribute('id')-1].style.display = "";
+      a1[obj.getAttribute('id')-1].style.display = "";
+   }
 </script>
 
 <script>
@@ -248,10 +293,10 @@
 	<h2 class="title">고객센터</h2>
 	
 	<div class="tabmenu-black">
-		<a class="on" href="qnaList.jsp"> 
+		<a class="on"> 
 			<span>고객의 소리</span>
 		</a> 
-		<a href="qnaInsert.jsp">
+		<a href="qnaInsert.jsp" >
 			<span>1:1 문의 등록</span>
 		</a> 
 		<a href="qnaMyList.jsp"> 
@@ -265,58 +310,60 @@
 	<h2 class="subtitle">문의목록</h2>
 	
 	<div class="qna-type">
-		<a class="on" href="qnaList.jsp"> 
+		<a class="header-link" href="qnaList.jsp" onclick="headerLinkStyle(this);"> 
 			<span>전체</span>
 		</a> 
-		<a href="#"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=주문/결제" onclick="headerLinkStyle(this);"> 
 			<span>주문/결제</span>
 		</a> 
-		<a href="#"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=배송" onclick="headerLinkStyle(this);"> 
 			<span>배송</span>
 		</a> 
-		<a href="#"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=환불/교환" onclick="headerLinkStyle(this);"> 
 			<span>환불/교환</span>
 		</a> 
-		<a href="#"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=기타" onclick="headerLinkStyle(this);"> 
 			<span>기타</span>
 		</a>
 	</div>
 	
-	<div class="qna-list">
-		<table class="qna-table">
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>구분</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>등록일자</th>
-					<th>답변여부</th>
-				</tr>
-			</thead>
-			
-			<%for(QnaBoardDto boardDto : list){ %>
-			<tbody>
-				<tr>
-					<td ><%=boardDto.getQnaBoardNo() %></td>
-					<td ><%=boardDto.getQnaBoardHeader() %></td>
-					<td ><a id="view-qa" onclick="viewContent(this); return false" href="javascript:"><%=boardDto.getQnaBoardTitle() %></a></td>
-					<td ><%=boardDto.getQnaBoardWriter() %></td>
-					<td ><%=boardDto.getQnaBoardTime() %></td>
-					<td ><span class="contents-info" oninput="contentsInfo();">답변대기</span></td>
-				<tr>
-				<tr id="q1" style="display:none;">
-					<td class="q1-a1" colspan="1" ><div >문의내용</div></td>
-					<td class="q1-a1" colspan="5" style="text-align: left;"><%=boardDto.getQnaBoardContent() %></td>
-				</tr>
-				<tr id="a1" style="display:none;">
-					<td class="q1-a1" colspan="1" ><div >답변</div></td>
-					<td class="q1-a1" colspan="5" style="text-align: left;">몰라</td>
-				</tr>
-			</tbody>
-			<%} %>	
-		</table>
-	</div>
+   <div class="qna-list">
+      <table class="qna-table">
+         <thead>
+            <tr>
+               <th>번호</th>
+               <th>구분</th>
+               <th>제목</th>
+               <th>작성자</th>
+               <th>등록일자</th>
+               <th>답변여부</th>
+            </tr>
+         </thead>
+         
+         <%int idx = 1; %>
+         <%for(QnaBoardDto boardDto : list){ %>
+         <tbody>
+            <tr>
+               <td ><%=boardDto.getQnaBoardNo() %></td>
+               <td ><%=boardDto.getQnaBoardHeader() %></td>
+               <td ><a id="<%=idx %>" onclick="viewContent(this); return false" href="javascript:"><%=boardDto.getQnaBoardTitle() %></a></td>
+               <td ><%=boardDto.getQnaBoardWriter() %></td>
+               <td ><%=boardDto.getQnaBoardTime() %></td>
+               <td ><span class="contents-info" oninput="contentsInfo();">답변대기</span></td>
+            <tr>
+            <tr class="q1" style="display:none;">
+               <td class="q1-a1" colspan="1" ><div >문의내용</div></td>
+               <td class="q1-a1" colspan="5" style="text-align: left;"><%=boardDto.getQnaBoardContent() %></td>
+            </tr>
+            <tr class="a1" style="display:none;">
+               <td class="q1-a1" colspan="1" ><div >답변</div></td>
+               <td class="q1-a1" colspan="5" style="text-align: left;">몰라</td>
+            </tr>
+         </tbody>
+         <%idx++; %>
+         <%} %>   
+      </table>
+   </div>
 	
 	<!-- 페이지 네비게이션 자리 -->
 	<div class="pagination">
