@@ -17,7 +17,7 @@ public class QnaBoardEditServlet extends HttpServlet {
    @Override
    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
       try {
-         //준비 : 파라미터(4개 : 번호, 말머리, 제목, 내용) + 세션(회원번호, 본인글 여부 확인용) --> BoardDto
+         //준비 : 파라미터(4개 : 번호, 말머리, 제목, 내용) + 세션(회원번호, 본인글 여부 확인용) --> qnaBoardDto
          req.setCharacterEncoding("UTF-8");
          QnaBoardDto qnaBoardDto = new QnaBoardDto();
          qnaBoardDto.setQnaBoardNo(Integer.parseInt(req.getParameter("qnaBoardNo")));

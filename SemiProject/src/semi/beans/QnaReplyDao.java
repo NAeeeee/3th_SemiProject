@@ -98,4 +98,6 @@ public class QnaReplyDao {
 		return result;
 	}
 	
+	
+	
 }
