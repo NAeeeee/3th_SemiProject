@@ -9,7 +9,7 @@ public class QnaReplyDto {
 	private Date qnaReplyTime;
 	private int qnaReplyWriter;
 	private int qnaReplyOrigin;
-	
+
 	public QnaReplyDto() {
 		super();
 	}

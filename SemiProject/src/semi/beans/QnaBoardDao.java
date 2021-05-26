@@ -28,7 +28,7 @@ public class QnaBoardDao {
     public void write(QnaBoardDto qnaBoardDto) throws Exception {
         Connection con = JdbcUtils.getConnection();
         
-        String sql = "insert into qna_board values(?, ?, ?, ?, ?, sysdate)";
+        String sql = "insert into qna_board values(?, ?, ?, ?, ?, sysdate, 0)";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, qnaBoardDto.getQnaBoardNo());
         ps.setString(2, qnaBoardDto.getQnaBoardHeader());
@@ -59,6 +59,7 @@ public class QnaBoardDao {
 			boardDto.setQnaBoardContent(rs.getString("qna_board_content"));
 			boardDto.setQnaBoardWriter(rs.getInt("qna_board_writer"));
 			boardDto.setQnaBoardTime(rs.getDate("qna_board_time"));
+			boardDto.setQnaBoardReply(rs.getInt("qna_board_reply"));
 
 		} else {
 			boardDto = null;
@@ -122,6 +123,7 @@ public class QnaBoardDao {
 			boardDto.setQnaBoardWriter(rs.getInt("qna_board_writer"));
 			boardDto.setQnaBoardTime(rs.getDate("qna_board_time"));
 			boardDto.setQnaBoardContent(rs.getString("qna_board_content"));
+			boardDto.setQnaBoardReply(rs.getInt("qna_board_reply"));
 
 			boardList.add(boardDto);
 		}
@@ -153,7 +155,8 @@ public class QnaBoardDao {
 			boardDto.setQnaBoardWriter(rs.getInt("qna_board_writer"));
 			boardDto.setQnaBoardTime(rs.getDate("qna_board_time"));
 			boardDto.setQnaBoardContent(rs.getString("qna_board_content"));
-
+			boardDto.setQnaBoardReply(rs.getInt("qna_board_reply"));
+			
 			boardList.add(boardDto);
 		}
 		con.close();
@@ -241,4 +244,16 @@ public class QnaBoardDao {
 		return count;
 	}
 
+	public boolean refreshBoardReply(int qnaBoardNo) throws Exception {
+		Connection con = JdbcUtils.getConnection();
+		String sql = "update qna_board "
+							+ "set qna_board_reply = ( select count(*) from qna_reply where qna_reply_origin = ? ) "
+							+ "where qna_board_no = ?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, qnaBoardNo);
+		ps.setInt(2, qnaBoardNo);
+		int count = ps.executeUpdate();
+		con.close();
+		return count > 0;
+	}
 }

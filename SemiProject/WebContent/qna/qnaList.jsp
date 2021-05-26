@@ -1,3 +1,5 @@
+<%@page import="semi.beans.QnaReplyDto"%>
+<%@page import="semi.beans.QnaReplyDao"%>
 <%@page import="semi.beans.QnaBoardDto"%>
 <%@page import="semi.beans.QnaBoardDao"%>
 <%@page import="java.util.List"%>
@@ -230,36 +232,38 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 <script>
-	function headerLinkStyle(obj){
-		window.onload = function(){
-			var headerLink = document.querySelectorAll(".header-link");
-			
-			for(var i=0; i<a.lenght; i++){
-				headerLink[i].classList.remove("on");
-			}
-			
-			headerLink[0].classList.add("on");
+	function viewContent(obj){
+		var con = document.querySelectorAll(".con");
+		var ans = document.querySelectorAll(".ans");
+				
+		if(con != null){
+			for(var i=0; i<con.length; i++){
+				con[i].style.display = "none";	
+			}				
 		}
+		
+		if(ans != null){
+			for(var i=0; i<ans.length; i++){
+				ans[i].style.display = "none";	
+			}				
+		}
+		
+		var q1 = document.querySelectorAll(".q"+obj.id);
+		var a1 = document.querySelectorAll(".a"+obj.id);
+		
+		if(q1 != null){
+			for(var i=0; i<q1.length; i++){
+				q1[i].style.display = "";	
+			}				
+		}
+		
+		if(a1 != null){
+			for(var i=0; i<a1.length; i++){
+				a1[i].style.display = "";	
+			}				
+		}
+		
 	}
-	
-</script>
-
-<script>
-   function viewContent(obj){
-      var q1 = document.querySelectorAll(".q1");
-      var a1 = document.querySelectorAll(".a1");
-      
-      for(var i=0; i<10; i++){      
-         if(q1[i] == null)
-            break;
-         
-         q1[i].style.display = "none";
-         a1[i].style.display = "none";
-      }        
-      
-      q1[obj.getAttribute('id')-1].style.display = "";
-      a1[obj.getAttribute('id')-1].style.display = "";
-   }
 </script>
 
 <script>
@@ -327,43 +331,61 @@
 		</a>
 	</div>
 	
-   <div class="qna-list">
-      <table class="qna-table">
-         <thead>
-            <tr>
-               <th>번호</th>
-               <th>구분</th>
-               <th>제목</th>
-               <th>작성자</th>
-               <th>등록일자</th>
-               <th>답변여부</th>
-            </tr>
-         </thead>
-         
-         <%int idx = 1; %>
-         <%for(QnaBoardDto boardDto : list){ %>
-         <tbody>
-            <tr>
-               <td ><%=boardDto.getQnaBoardNo() %></td>
-               <td ><%=boardDto.getQnaBoardHeader() %></td>
-               <td ><a id="<%=idx %>" onclick="viewContent(this); return false" href="javascript:"><%=boardDto.getQnaBoardTitle() %></a></td>
-               <td ><%=boardDto.getQnaBoardWriter() %></td>
-               <td ><%=boardDto.getQnaBoardTime() %></td>
-               <td ><span class="contents-info" oninput="contentsInfo();">답변대기</span></td>
-            <tr>
-            <tr class="q1" style="display:none;">
-               <td class="q1-a1" colspan="1" ><div >문의내용</div></td>
-               <td class="q1-a1" colspan="5" style="text-align: left;"><%=boardDto.getQnaBoardContent() %></td>
-            </tr>
-            <tr class="a1" style="display:none;">
-               <td class="q1-a1" colspan="1" ><div >답변</div></td>
-               <td class="q1-a1" colspan="5" style="text-align: left;">몰라</td>
-            </tr>
-         </tbody>
-         <%idx++; %>
-         <%} %>   
-      </table>
-   </div>
+	<div class="qna-list">
+		<table class="qna-table">
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>구분</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>등록일자</th>
+					<th>답변여부</th>
+				</tr>
+			</thead>
+			
+			<%for(QnaBoardDto boardDto : list){ %>
+			<tbody>
+				<tr>
+					<td ><%=boardDto.getQnaBoardNo() %></td>
+					<td ><%=boardDto.getQnaBoardHeader() %></td>
+					<td ><a id="<%=boardDto.getQnaBoardNo() %>" onclick="viewContent(this); return false" href="javascript:"><%=boardDto.getQnaBoardTitle() %></a>
+					<%if(boardDto.getQnaBoardReply() > 0){ %>
+						<!-- 댓글 개수 출력 : 0보다 클 경우만 출력 -->
+						<span style="color:#ff9f43; margin-left: 3px;">[<%=boardDto.getQnaBoardReply()%>]</span>
+					<%} %>	
+					</td>
+					<td ><%=boardDto.getQnaBoardWriter() %></td>
+					<td ><%=boardDto.getQnaBoardTime() %></td>
+					<td >
+						<span class="contents-info" oninput="contentsInfo();">							
+							<!-- 댓글 개수 0보다 클 경우 답변완료 -->
+							<%if(boardDto.getQnaBoardReply() > 0){ %>							
+								답변완료
+							<%}	else{ %>
+								답변대기
+							<%} %>						
+						</span>
+					</td>
+				<tr>
+				<tr class="q<%=boardDto.getQnaBoardNo() %> con" style="display:none";">
+					<td class="q1-a1" colspan="1" ><div >문의내용</div></td>
+					<td class="q1-a1" colspan="5" style="text-align: left;"><%=boardDto.getQnaBoardContent() %></td>
+				</tr>
+				<%if(boardDto.getQnaBoardReply() > 0) {%>
+					<%QnaReplyDao qnaReplyDao = new QnaReplyDao();%>
+					<%List<QnaReplyDto> replyList = qnaReplyDao.list(boardDto.getQnaBoardNo());%>
+					<%for(QnaReplyDto qnaReplyDto : replyList){ %>
+						<tr class="a<%=boardDto.getQnaBoardNo() %> ans" style="display:none";">
+							<td class="q1-a1" colspan="1" ><div >답변</div></td>
+							<td class="q1-a1" colspan="5" style="text-align: left;"><%=qnaReplyDto.getQnaReplyContent() %></td>						
+						</tr>
+					<%} %>
+				<%} %>
+			</tbody>
+			<%} %>	
+		</table>
+	</div>
 	
 	<!-- 페이지 네비게이션 자리 -->
 	<div class="pagination">

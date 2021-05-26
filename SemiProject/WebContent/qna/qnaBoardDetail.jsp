@@ -1,3 +1,8 @@
+<%@page import="semi.beans.QnaReplyDto"%>
+<%@page import="java.util.List"%>
+<%@page import="semi.beans.QnaReplyDao"%>
+<%@page import="semi.beans.MemberDto"%>
+<%@page import="semi.beans.MemberDao"%>
 <%@page import="semi.beans.QnaBoardDto"%>
 <%@page import="semi.beans.QnaBoardDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -8,6 +13,13 @@
 
 	QnaBoardDao qnaBoardDao = new QnaBoardDao();
 	QnaBoardDto qnaBoardDto = qnaBoardDao.get(qnaBoardNo);
+	
+	QnaReplyDao qnaReplyDao = new QnaReplyDao();
+	List<QnaReplyDto> list = qnaReplyDao.list(qnaBoardNo);
+	
+	int memberNo = (int)session.getAttribute("member");
+	MemberDao memberDao = new MemberDao();
+	MemberDto memberDto = memberDao.getMember(memberNo);
 %>
 
 <jsp:include page="/template/header.jsp"></jsp:include>
@@ -64,13 +76,16 @@
 	width: 1000px;
 	min-height: 500px;
 	margin: 10px auto;
+	border: 2px solid #cfcfcf;
+    border-radius: 6px;    
+	padding: 16px 10px 10px 18px;
 }
 
 .notice-title{
-	width: 1000px;
+	width: 950px;
 	height: 50px;
 	line-height: 50px;
-	border-bottom: solid 2px #000;
+	border-bottom: solid 2px #cfcfcf;
 	padding: 0 90px 15px 0;
 	position: relative;
 }
@@ -81,36 +96,143 @@
 }
 
 .notice-content{
-	width: 1000px;
+	width: 950px;
 	position: relative;
-	border-bottom: 2px solid black;
-	min-height: 200px;
+	min-height: 300px;
+}
+
+.notice-regit-reply {
+	width: 950px;
+	min-height: 130px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+    padding: 5px 10px 10px 18px;
+    border: 2px solid #cfcfcf;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.notice-update-reply{
+	width: 930px;
+	min-height: 130px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+    padding: 5px 10px 10px 18px;
+    border: 2px solid #cfcfcf;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.notice-reply-content{
+	width: 950px;
+	min-height: 130px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+    padding: 5px 10px 10px 18px;
+    border: 2px solid #cfcfcf;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.notice-reply-line{
+	width: 930px;
+    border-top: 1px solid #cfcfcf;
+    min-height: 10px;
+    margin-top: 20px;
+}
+
+.notice-reply{ 
+	padding: 0px 10px 5px 10px;
+	width: 950px;
+}
+
+.regit-btn{
+	width: 60px;
 }
 
 .notice-bottom{
-	width: 1000px;
-	height: 50px;
-	margin: 20px 0;
-	text-align: right;
+	width: 950px; 
+	margin: 30px 10px 5px 0px;
+	padding: 7px 0 5px 0;
+	text-align: right;	
 }
 
-.board-list-link{
-	width: 150px;
-	height: 30px;
-	background-color: black;
-	color: white;
-	line-height: 30px;
-	border-style: none;
-	display: inline-block;
+.notice-bottom > btn{	
+
+	height: 30px;		
+	line-height: 30px;	
 	font-size: 20px;
-	text-align: center;
+	text-align: right;
+	display: inline-block;
+	width: 30px;
 }
 
-.board-list-link:hover{
-	background-color: #FFC800;
+.list-btn:hover{
+	background-color: #FF8E99;
+	border: none;
+	color: black;
+}
+
+.comment_inbox_text{
+    display: block;
+    width: 100%;
+    min-height: 17px;
+    padding-right: 1px;
+    border: 0;
+    font-size: 13px;
+    -webkit-appearance: none;
+    resize: none;
+    box-sizing: border-box;
+    background: transparent;
+    color: var(--skinTextColor);
+    outline: 0;
+}
+
+.update-btn, .delete-btn{
+	display:inline-block;
+	line-height: 14px;
+	text-align: center;
+	width: 48px;
+	height: 33px;
+	font-size: 14px;
 }
 
 </style>
+
+<script>
+	function updateReply(obj){
+		var viewClass = document.querySelectorAll(".re");
+		var editClass = document.querySelectorAll(".up");
+		
+		for(var i=0; i<viewClass.length; i++){
+			viewClass[i].style.display = "";
+			editClass[i].style.display = "none";
+		}
+		
+		var viewWindow = document.querySelector("#re"+obj.id);
+		var editWindow = document.querySelector("#up"+obj.id);
+		
+		if(viewWindow != null)
+			viewWindow.style.display = "none";
+		
+		if(editWindow != null)
+			editWindow.style.display = "";	
+		
+		var textarea = document.querySelector("#comment_update");
+		textarea.focus();
+	}
+	
+	function cancleUpdate(){
+		var viewClass = document.querySelectorAll(".re");
+		var editClass = document.querySelectorAll(".up");
+		
+		for(var i=0; i<viewClass.length; i++){
+			viewClass[i].style.display = "";
+			editClass[i].style.display = "none";
+		}
+	}
+</script>
+
 <div class="qna">
 
 	<h2 class="title">고객센터</h2>
@@ -134,25 +256,96 @@
 	
 	<div class="qna-notice-row">
 		<div class="notice-title">
-			<strong><%=qnaBoardDto.getQnaBoardTitle() %></strong>
+			<strong style="padding:0 0 0 10px;"><%=qnaBoardDto.getQnaBoardTitle() %></strong>
 			<span><%=qnaBoardDto.getQnaBoardTime() %></span>
 		</div>
 		
 		<div class="notice-content">
-			<div style="float: left; width: 100%;min-height: 200px; padding: 10px 0;">
+			<div style="float: left; width: 100%;min-height: 200px; padding: 10px 20px 10px 20px;">
 				<pre><%=qnaBoardDto.getQnaBoardContent() %></pre>
 			</div>
 		</div>
-		
-		<!-- 버튼 -->
+	<!-- 버튼 -->
        
      <div class="notice-bottom">
         <a href="qnaBoardEdit.jsp?qnaBoardNo=<%=qnaBoardNo%>">수정</a>
         <a href="qnaboardDelete.kh?qnaBoardNo=<%=qnaBoardNo%>" >삭제</a>
         <a class="notice-list" href="qnaMyList.jsp">나의 1:1 문의목록</a>
      </div>
+		<div class="notice-reply-line" style="margin-left:10px;">	</div>
+					
+		<div class="notice-reply">
+			<%if(list != null) { %>
+				<%for(QnaReplyDto qnaReplyDto : list){ %>
+					<div class="row re" id="re<%=qnaReplyDto.getQnaReplyNo() %>">
+						<div class="row">
+							<span><%=qnaReplyDto.getQnaReplyWriter() %></span>
+						</div>
+						<div class="row">
+							<span><%=qnaReplyDto.getQnaReplyContent() %></span>
+						</div>
+						<div class="row">
+							<span style="display:inline-block; text-align:left;"><%=qnaReplyDto.getQnaReplyTime().toLocaleString() %></span>
+							<%if(memberNo == qnaReplyDto.getQnaReplyWriter()) {%>
+								<div style="float:right;">																
+									<a id="<%=qnaReplyDto.getQnaReplyNo()%>" "href="#" onclick="updateReply(this); return false" class="form-btn form-btn-normal update-btn">수정</a>							
+									<a href="deleteQnaReply.kh?qnaReplyNo=<%=qnaReplyDto.getQnaReplyNo() %>&qnaReplyWriter=<%=qnaReplyDto.getQnaReplyWriter() %>&qnaReplyOrigin=<%=qnaReplyDto.getQnaReplyOrigin() %>" 
+									class="form-btn form-btn-normal delete-btn">삭제</a>															
+								</div>								
+							<%} %>
+						</div>
+					</div>
+					
+					<div class="notice-update-reply up" id="up<%=qnaReplyDto.getQnaReplyNo() %>" style="display:none;">
+						<form action="updateQnaReply.kh" method="post" >
+							<div class="row">
+								<div class="row">
+									<strong><%=memberDto.getMemberId() %></strong>
+								</div>
+								<div class="row">							
+									<textarea name="qnaReplyContent" placeholder="<%=qnaReplyDto.getQnaReplyContent() %>" rows="1" class="comment_inbox_text" id="comment_update" style="overflow: hidden; overflow-wrap: break-word; height: 30px;" required></textarea>
+									<input type="hidden" name="qnaReplyNo" value="<%=qnaReplyDto.getQnaReplyNo() %>">
+									<input type="hidden" name="qnaReplyWriter" value="<%=memberNo %>">
+									<input type="hidden" name="qnaReplyOrigin" value="<%=qnaBoardNo %>" >
+								</div>
+							</div>
+							
+							<div class="row text-right" style="padding:0 10px 5px 0;">
+								<input type="submit" class="form-btn form-btn-normal regit-btn" value="수정" style="width:50px; ">
+								<input type="button" class="form-btn form-btn-normal regit-btn" value="취소" onclick="cancleUpdate();" style="width:50px; ">
+							</div>
+						</form>
+					</div>	
+								
+					<div class="notice-reply-line">
+					</div>
+				<%} %>
+			<%} %>
+		</div>
 		
+		<div class="notice-regit-reply">
+				<form action="insertQnaReply.kh" method="post">
+					<div class="row">
+						<div class="row">
+							<strong><%=memberDto.getMemberId() %></strong>
+						</div>
+						<div class="row">							
+							<textarea name="qnaReplyContent" placeholder="댓글을 남겨보세요" rows="1" class="comment_inbox_text" style="overflow: hidden; overflow-wrap: break-word; height: 30px;" required></textarea>
+							<input type="hidden" name="qnaReplyWriter" value="<%=memberNo %>">
+							<input type="hidden" name="qnaReplyOrigin" value="<%=qnaBoardNo %>" >
+						</div>
+					</div>
+					
+					<div class="row text-right" style="padding:0 10px 5px 0;">
+						<input type="submit" class="form-btn form-btn-normal regit-btn" value="등록">
+					</div>
+				</form>
+		</div>	
 	</div>
+	
+	<div class="notice-bottom">
+			<a class="form-btn form-btn-normal list-btn" href="qnaMyList.jsp" >나의 1:1 문의목록</a>
+		</div>
 </div>
 
 <jsp:include page="/template/footer.jsp"></jsp:include>
