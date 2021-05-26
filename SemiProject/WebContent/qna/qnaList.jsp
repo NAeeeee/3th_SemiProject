@@ -1,3 +1,5 @@
+<%@page import="semi.beans.QnaReplyDto"%>
+<%@page import="semi.beans.QnaReplyDao"%>
 <%@page import="semi.beans.QnaBoardDto"%>
 <%@page import="semi.beans.QnaBoardDao"%>
 <%@page import="java.util.List"%>
@@ -201,20 +203,43 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
-	
-
-
-	function viewContent(){
-		var q1 = document.querySelector("#q1");
-		var a1 = document.querySelector("#a1");
-			
-		if(q1 != null){
-			q1.style.display = "table-row";
-			a1.style.display = "table-row";
+	function viewContent(obj){
+		var con = document.querySelectorAll(".con");
+		var ans = document.querySelectorAll(".ans");
+				
+		if(con != null){
+			for(var i=0; i<con.length; i++){
+				con[i].style.display = "none";	
+			}				
 		}
+		
+		if(ans != null){
+			for(var i=0; i<ans.length; i++){
+				ans[i].style.display = "none";	
+			}				
+		}
+		
+		var q1 = document.querySelectorAll(".q"+obj.id);
+		var a1 = document.querySelectorAll(".a"+obj.id);
+		
+		console.log(obj.id);
+		console.log(".q"+obj.id);
+		console.log(".a"+obj.id);
+		if(q1 != null){
+			console.log(q1.length);
+			for(var i=0; i<q1.length; i++){
+				q1[i].style.display = "";	
+			}				
+		}
+		
+		if(a1 != null){
+			console.log(a1.length);
+			for(var i=0; i<a1.length; i++){
+				a1[i].style.display = "";	
+			}				
+		}
+		
 	}
-	
-	
 </script>
 
 <script>
@@ -295,25 +320,47 @@
 				</tr>
 			</thead>
 			
+			<%int idx = 1; %>
 			<%for(QnaBoardDto boardDto : list){ %>
 			<tbody>
 				<tr>
 					<td ><%=boardDto.getQnaBoardNo() %></td>
 					<td ><%=boardDto.getQnaBoardHeader() %></td>
-					<td ><a id="view-qa" onclick="viewContent(this); return false" href="javascript:"><%=boardDto.getQnaBoardTitle() %></a></td>
+					<td ><a id="<%=boardDto.getQnaBoardNo() %>" onclick="viewContent(this); return false" href="javascript:"><%=boardDto.getQnaBoardTitle() %></a>
+					<%if(boardDto.getQnaBoardReply() > 0){ %>
+						<!-- 댓글 개수 출력 : 0보다 클 경우만 출력 -->
+						<span style="color:#ff9f43; margin-left: 3px;">[<%=boardDto.getQnaBoardReply()%>]</span>
+					<%} %>	
+					</td>
 					<td ><%=boardDto.getQnaBoardWriter() %></td>
 					<td ><%=boardDto.getQnaBoardTime() %></td>
-					<td ><span class="contents-info" oninput="contentsInfo();">답변대기</span></td>
+					<td >
+						<span class="contents-info" oninput="contentsInfo();">							
+							<!-- 댓글 개수 0보다 클 경우 답변완료 -->
+							<%if(boardDto.getQnaBoardReply() > 0){ %>							
+								답변완료
+							<%}	else{ %>
+								답변대기
+							<%} %>						
+						</span>
+					</td>
 				<tr>
-				<tr id="q1" style="display:none;">
+				<tr class="q<%=boardDto.getQnaBoardNo() %> con" style="display:none";">
 					<td class="q1-a1" colspan="1" ><div >문의내용</div></td>
 					<td class="q1-a1" colspan="5" style="text-align: left;"><%=boardDto.getQnaBoardContent() %></td>
 				</tr>
-				<tr id="a1" style="display:none;">
-					<td class="q1-a1" colspan="1" ><div >답변</div></td>
-					<td class="q1-a1" colspan="5" style="text-align: left;">몰라</td>
-				</tr>
+				<%if(boardDto.getQnaBoardReply() > 0) {%>
+					<%QnaReplyDao qnaReplyDao = new QnaReplyDao();%>
+					<%List<QnaReplyDto> replyList = qnaReplyDao.list(boardDto.getQnaBoardNo());%>
+					<%for(QnaReplyDto qnaReplyDto : replyList){ %>
+						<tr class="a<%=boardDto.getQnaBoardNo() %> ans" style="display:none";">
+							<td class="q1-a1" colspan="1" ><div >답변</div></td>
+							<td class="q1-a1" colspan="5" style="text-align: left;"><%=qnaReplyDto.getQnaReplyContent() %></td>						
+						</tr>
+					<%} %>
+				<%} %>
 			</tbody>
+			<%idx++; %>
 			<%} %>	
 		</table>
 	</div>
