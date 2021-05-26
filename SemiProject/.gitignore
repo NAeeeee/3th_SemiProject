@@ -1,2 +1,5 @@
 /build/
 /.tern-project
+/.settings/
+org.eclipse.wst.common.component
+org.eclipse.wst.common.component
