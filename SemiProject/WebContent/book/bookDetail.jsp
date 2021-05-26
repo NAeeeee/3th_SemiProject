@@ -1,4 +1,5 @@
 
+
 <%@page import="semi.beans.BookDto"%>
 <%@page import="semi.beans.BookDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -75,4 +76,3 @@
 </div>
 
 <jsp:include page="/template/footer.jsp"></jsp:include>
-    

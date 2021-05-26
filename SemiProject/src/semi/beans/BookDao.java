@@ -1,3 +1,4 @@
+
 package semi.beans;
 
 import java.sql.Connection;
@@ -14,26 +15,7 @@ import semi.beans.BookDto;
 public class BookDao {
 
 	// 등록 기능
-	public void registBook(BookDto bookDto) throws Exception {
-		Connection con = JdbcUtils.getConnection();
-
-		String sql = "insert into book values(book_seq.nextval,?,?,?,?,?,?,?,?,?)";
-		PreparedStatement ps = con.prepareStatement(sql);
-
-		ps.setString(1, bookDto.getBookTitle());
-		ps.setString(2, bookDto.getBookImage());
-		ps.setString(3, bookDto.getBookAutor());
-		ps.setInt(4, bookDto.getBookPrice());
-		ps.setInt(5, bookDto.getBookDiscount());
-		ps.setString(6, bookDto.getBookPublisher());
-		ps.setString(7, bookDto.getBookDescription());
-		ps.setString(8, bookDto.getBookPubdate());
-		ps.setInt(9, bookDto.getBookGenre());
-
-		ps.execute();
-
-		con.close();
-	}
+	
 
 	public BookDto get(int no) throws Exception {
 		Connection con = JdbcUtils.getConnection();
@@ -163,4 +145,27 @@ public class BookDao {
 		return bookDto;
  	}
 	
+
+		public void registBook(BookDto bookDto) throws Exception {
+		Connection con = JdbcUtils.getConnection();
+
+		String sql = "insert into book values(book_seq.nextval,?,?,?,?,?,?,?,?,?)";
+		PreparedStatement ps = con.prepareStatement(sql);
+
+		ps.setString(1, bookDto.getBookTitle());
+		ps.setString(2, bookDto.getBookImage());
+		ps.setString(3, bookDto.getBookAutor());
+		ps.setInt(4, bookDto.getBookPrice());
+		ps.setInt(5, bookDto.getBookDiscount());
+		ps.setString(6, bookDto.getBookPublisher());
+		ps.setString(7, bookDto.getBookDescription());
+		ps.setString(8, bookDto.getBookPubdate());
+		ps.setInt(9, bookDto.getBookGenre());
+
+		ps.execute();
+
+		con.close();
+	}
+
 }
+	

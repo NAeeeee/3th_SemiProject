@@ -1,3 +1,4 @@
+
 package semi.beans;
 
 import java.sql.Date;

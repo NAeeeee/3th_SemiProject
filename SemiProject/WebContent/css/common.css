@@ -169,7 +169,7 @@ html,body{
 }
 
 .table.table-border {
-	border: 1px solid black;
+	border: none;
 	border-collapse: collapse; 
 }
 .table.table-border > thead > tr > th, 
@@ -178,7 +178,7 @@ html,body{
 .table.table-border > tbody > tr > td,
 .table.table-border > tfoot > tr > th,
 .table.table-border > tfoot > tr > td {
-	border: 1px solid black;
+	border: none;
 }
 
 .table.table-striped > thead > tr,
