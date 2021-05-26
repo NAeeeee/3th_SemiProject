@@ -149,10 +149,7 @@
 		for(var i=0;i<sub_menu.length;i++){
 			sub_menu[i].addEventListener("mouseover",function(){
 				var wid = -this.children[1].firstElementChild.offsetWidth;
-				console.dir(this.children[1]);
-				console.log(this.children[1]);
-				console.log(String(wid+1)+'px');
-				this.children[1].style.right=String(wid)+'px';
+				this.children[1].style.right=String(wid+1)+'px';
 			})
 		}
 	})
