@@ -222,18 +222,13 @@
 		var q1 = document.querySelectorAll(".q"+obj.id);
 		var a1 = document.querySelectorAll(".a"+obj.id);
 		
-		console.log(obj.id);
-		console.log(".q"+obj.id);
-		console.log(".a"+obj.id);
 		if(q1 != null){
-			console.log(q1.length);
 			for(var i=0; i<q1.length; i++){
 				q1[i].style.display = "";	
 			}				
 		}
 		
 		if(a1 != null){
-			console.log(a1.length);
 			for(var i=0; i<a1.length; i++){
 				a1[i].style.display = "";	
 			}				
@@ -320,7 +315,6 @@
 				</tr>
 			</thead>
 			
-			<%int idx = 1; %>
 			<%for(QnaBoardDto boardDto : list){ %>
 			<tbody>
 				<tr>
@@ -360,7 +354,6 @@
 					<%} %>
 				<%} %>
 			</tbody>
-			<%idx++; %>
 			<%} %>	
 		</table>
 	</div>
