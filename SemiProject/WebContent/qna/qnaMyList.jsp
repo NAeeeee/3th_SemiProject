@@ -255,8 +255,8 @@
 					<th>답변여부</th>
 				</tr>
 			</thead>
-			<tbody>
 			<%for(QnaBoardDto qnaBoardDto : myList){ %>
+			<tbody>
 				<tr>
 					<td><%=qnaBoardDto.getQnaBoardNo() %></td>
 					<td><%=qnaBoardDto.getQnaBoardHeader() %></td>

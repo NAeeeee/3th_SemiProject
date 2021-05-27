@@ -1,5 +1,36 @@
+<%@page import="java.util.HashSet"%>
+<%@page import="java.util.Set"%>
+<%@page import="semi.beans.NoticeBoardDto"%>
+<%@page import="semi.beans.NoticeBoardDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%
+	int noticeBoardNo = Integer.parseInt(request.getParameter("noticeBoardNo"));
+
+	NoticeBoardDao noticeBoardDao = new NoticeBoardDao();
+	NoticeBoardDto noticeBoardDto= noticeBoardDao.get(noticeBoardNo);
+	
+	//이전글 정보 불러오기
+	NoticeBoardDto prevBoardDto = noticeBoardDao.getPrevious(noticeBoardNo);
+	
+	//다음글 정보 불러오기
+	NoticeBoardDto nextBoardDto = noticeBoardDao.getNext(noticeBoardNo);
+	
+	//조회수 증가
+	int member = (int)session.getAttribute("member");
+	Set<Integer> noticeBoardNoSet;
+	if(session.getAttribute("noticeBoardNoSet") != null){//세션에 boardNoSet이라는 이름의 저장소가 있다면 --> 저장소 추출
+		noticeBoardNoSet = (Set<Integer>)session.getAttribute("noticeBoardNoSet");
+	}
+	else{//세션에 boardNoSet이라는 이름의 저장소가 없다면
+		noticeBoardNoSet = new HashSet<>();
+	}
+	
+	if(noticeBoardNoSet.add(noticeBoardNo)){//boardNoSet에 현재 글번호(boardNo)가 추가되었다면 --> 처음 읽는 글
+		noticeBoardDao.read(noticeBoardNo, member);//조회수 증가
+	}
+%>
 
 <jsp:include page="/template/header.jsp"></jsp:include>
 
@@ -75,6 +106,7 @@
 	width: 1000px;
 	padding: 10px 0;
 	position: relative;
+	min-height: 200px;
 }
 
 .qna-notice-prev{
@@ -136,43 +168,40 @@
 	
 	<div class="qna-notice-row">
 		<div class="notice-title">
-			<strong>제목</strong>
-			<span>작성시간</span>
+			<strong><%=noticeBoardDto.getNoticeBoardTitle() %></strong>
+			<span><%=noticeBoardDto.getNoticeBoardTime() %></span>
 		</div>
 		
 		<div class="notice-content">
-			<pre>안녕하세요!
-
-기존보다 더 많은 혜택으로
-쇼핑을 즐겨보세요~♥
-
-아래 링크로 확인 부탁드립니다 :)
-▶ https://bit.ly/3561wsF
-
-지금 바로 다양한 회원 혜택 누리세요!
-
-감사합니다.</pre>
+			<pre><%=noticeBoardDto.getNoticeBoardContent() %></pre>
 		</div>
+		
+		<%if(member == noticeBoardDto.getNoticeBoardWriter()){ %>
+    	<div class="notice-bottom">
+	        <a class="form-btn form-btn-normal delete-btn" href="qnaNoticeEdit.jsp?noticeBoardNo=<%=noticeBoardNo%>">수정</a>
+	        <a class="form-btn form-btn-normal delete-btn" href="qnaNoticeDelete.kh?noticeBoardNo=<%=noticeBoardNo%>" >삭제</a>
+     	</div>
+     	<%} %>
 		
 		<div class="qna-notice-prev">
 			<a href="#">이전글	|</a> 
-<%-- 			<%if(nextBoardDto == null){%> --%>
-<!-- 			다음글이 없습니다. -->
-<%-- 			<%}else{ %> --%>
-<%-- 			<a href="boardDetail.jsp?boardNo=<%=nextBoardDto.getBoardNo()%>"> --%>
-<%-- 				<%=nextBoardDto.getBoardTitle()%> --%>
-<!-- 			</a> -->
-<%-- 			<%} %> --%>
+			<%if(nextBoardDto == null){%>
+				<span style="font-size: 13px; color: #c8c8c8">이전글이 없습니다.</span>
+			<%}else{ %>
+			<a href="qnaNoticeDetail.jsp?noticeBoardNo=<%=nextBoardDto.getNoticeBoardNo()%>">
+				<%=nextBoardDto.getNoticeBoardTitle()%>
+			</a>
+			<%} %>
 		</div>
 		<div class="qna-notice-next">
 			<a href="#">다음글	|</a> 
-<%-- 			<%if(prevBoardDto == null){%> --%>
-<!-- 			이전글이 없습니다. -->
-<%-- 			<%}else{ %> --%>
-<%-- 			<a href="boardDetail.jsp?boardNo=<%=prevBoardDto.getBoardNo()%>"> --%>
-<%-- 				<%=prevBoardDto.getBoardTitle()%> --%>
-<!-- 			</a> -->
-<%-- 			<%} %> --%>
+			<%if(prevBoardDto == null){%>
+				<span style="font-size: 13px; color: #c8c8c8">다음글이 없습니다.</span>
+			<%}else{ %>
+			<a href="qnaNoticeDetail.jsp?noticeBoardNo=<%=prevBoardDto.getNoticeBoardNo()%>">
+				<%=prevBoardDto.getNoticeBoardTitle()%>
+			</a>
+			<%} %>
 		</div>
 		
 		<div class="notice-bottom">

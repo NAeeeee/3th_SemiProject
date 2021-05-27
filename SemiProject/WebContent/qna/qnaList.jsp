@@ -1,3 +1,5 @@
+<%@page import="semi.beans.MemberDto"%>
+<%@page import="semi.beans.MemberDao"%>
 <%@page import="semi.beans.QnaReplyDto"%>
 <%@page import="semi.beans.QnaReplyDao"%>
 <%@page import="semi.beans.QnaBoardDto"%>
@@ -7,15 +9,11 @@
 	pageEncoding="UTF-8"%>
 
 <%
+	int member = (int)session.getAttribute("member");
 	request.setCharacterEncoding("UTF-8");
 	String qnaBoardHeader = request.getParameter("qnaBoardHeader");
-
-	boolean isHeader = qnaBoardHeader != null ;
 	
-	String headerName;
-	if(qnaBoardHeader == "주문/결제"){
-		headerName = "a";
-	}
+	boolean isHeader = qnaBoardHeader != null ;
 	
 	//페이지 네이셔 구현 코드
 	int pageNo;//현재 페이지 번호
@@ -72,6 +70,7 @@
 	}
 
 %>
+
 <jsp:include page="/template/header.jsp"></jsp:include>
 
 <style>
@@ -230,7 +229,46 @@
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-
+<script>
+		
+	
+	
+	window.onload = function(){
+		
+		//parameter 뽑아오기
+		function getParameterByName(name) {
+		    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		            results = regex.exec(location.search);
+		    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		}
+		var patId = getParameterByName('qnaBoardHeader'); 	
+			
+		//윈도우 시작하면서 class 부여 설정
+		var headerLink = document.querySelectorAll(".header-link");
+		
+		for(var i=0; i<headerLink.lenght; i++){
+			headerLink[i].classList.remove("on");
+		}
+		
+		if(patId == headerLink[1].innerText){
+			headerLink[1].classList.add("on");
+		}
+		else if(patId == headerLink[2].innerText){
+			headerLink[2].classList.add("on");
+		}
+		else if(patId == headerLink[3].innerText){
+			headerLink[3].classList.add("on");
+		}
+		else if(patId == headerLink[4].innerText){
+			headerLink[4].classList.add("on");
+		}
+		else{
+			headerLink[0].classList.add("on");
+		}
+	}
+	
+</script>
 <script>
 	function viewContent(obj){
 		var con = document.querySelectorAll(".con");
@@ -314,19 +352,19 @@
 	<h2 class="subtitle">문의목록</h2>
 	
 	<div class="qna-type">
-		<a class="header-link" href="qnaList.jsp" onclick="headerLinkStyle(this);"> 
+		<a class="header-link" href="qnaList.jsp"> 
 			<span>전체</span>
 		</a> 
-		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=주문/결제" onclick="headerLinkStyle(this);"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=주문/결제"> 
 			<span>주문/결제</span>
 		</a> 
-		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=배송" onclick="headerLinkStyle(this);"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=배송" > 
 			<span>배송</span>
 		</a> 
-		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=환불/교환" onclick="headerLinkStyle(this);"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=환불/교환" > 
 			<span>환불/교환</span>
 		</a> 
-		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=기타" onclick="headerLinkStyle(this);"> 
+		<a class="header-link" href="<%=request.getContextPath()%>/qna/qnaList.jsp?qnaBoardHeader=기타"> 
 			<span>기타</span>
 		</a>
 	</div>
@@ -348,14 +386,19 @@
 			<tbody>
 				<tr>
 					<td ><%=boardDto.getQnaBoardNo() %></td>
-					<td ><%=boardDto.getQnaBoardHeader() %></td>
+					<td >[<%=boardDto.getQnaBoardHeader() %>]</td>
 					<td ><a id="<%=boardDto.getQnaBoardNo() %>" onclick="viewContent(this); return false" href="javascript:"><%=boardDto.getQnaBoardTitle() %></a>
 					<%if(boardDto.getQnaBoardReply() > 0){ %>
 						<!-- 댓글 개수 출력 : 0보다 클 경우만 출력 -->
 						<span style="color:#ff9f43; margin-left: 3px;">[<%=boardDto.getQnaBoardReply()%>]</span>
 					<%} %>	
 					</td>
-					<td ><%=boardDto.getQnaBoardWriter() %></td>
+					<td ><%MemberDao memberDao = new MemberDao();
+		               MemberDto memberDto = memberDao.getMember(boardDto.getQnaBoardWriter());
+		               String Id = memberDto.getMemberId();
+		               Id = Id.replaceAll(".(?=.{4})", "*");%>   
+                  	<%=Id %>
+                 	</td>
 					<td ><%=boardDto.getQnaBoardTime() %></td>
 					<td >
 						<span class="contents-info" oninput="contentsInfo();">							
@@ -368,20 +411,22 @@
 						</span>
 					</td>
 				<tr>
-				<tr class="q<%=boardDto.getQnaBoardNo() %> con" style="display:none";">
-					<td class="q1-a1" colspan="1" ><div >문의내용</div></td>
-					<td class="q1-a1" colspan="5" style="text-align: left;"><%=boardDto.getQnaBoardContent() %></td>
-				</tr>
-				<%if(boardDto.getQnaBoardReply() > 0) {%>
-					<%QnaReplyDao qnaReplyDao = new QnaReplyDao();%>
-					<%List<QnaReplyDto> replyList = qnaReplyDao.list(boardDto.getQnaBoardNo());%>
-					<%for(QnaReplyDto qnaReplyDto : replyList){ %>
-						<tr class="a<%=boardDto.getQnaBoardNo() %> ans" style="display:none";">
-							<td class="q1-a1" colspan="1" ><div >답변</div></td>
-							<td class="q1-a1" colspan="5" style="text-align: left;"><%=qnaReplyDto.getQnaReplyContent() %></td>						
-						</tr>
+				<%if(member == boardDto.getQnaBoardWriter()) {%>
+					<tr class="q<%=boardDto.getQnaBoardNo() %> con" style="display:none;">
+						<td class="q1-a1" colspan="1" ><div >문의내용</div></td>
+						<td class="q1-a1" colspan="5" style="text-align: left;"><%=boardDto.getQnaBoardContent() %></td>
+					</tr>
+					<%if(boardDto.getQnaBoardReply() > 0) {%>
+						<%QnaReplyDao qnaReplyDao = new QnaReplyDao();%>
+						<%List<QnaReplyDto> replyList = qnaReplyDao.list(boardDto.getQnaBoardNo());%>
+						<%for(QnaReplyDto qnaReplyDto : replyList){ %>
+							<tr class="a<%=boardDto.getQnaBoardNo() %> ans" style="display:none;">
+								<td class="q1-a1" colspan="1" ><div >답변</div></td>
+								<td class="q1-a1" colspan="5" style="text-align: left;"><%=qnaReplyDto.getQnaReplyContent() %></td>						
+							</tr>
+						<%} %>
 					<%} %>
-				<%} %>
+				<% } %>
 			</tbody>
 			<%} %>	
 		</table>

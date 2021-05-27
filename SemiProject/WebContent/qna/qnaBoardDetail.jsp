@@ -1,3 +1,5 @@
+<%@page import="semi.beans.QnaReplyMemberDto"%>
+<%@page import="semi.beans.QnaReplyMemberDao"%>
 <%@page import="semi.beans.QnaReplyDto"%>
 <%@page import="java.util.List"%>
 <%@page import="semi.beans.QnaReplyDao"%>
@@ -14,12 +16,14 @@
 	QnaBoardDao qnaBoardDao = new QnaBoardDao();
 	QnaBoardDto qnaBoardDto = qnaBoardDao.get(qnaBoardNo);
 	
-	QnaReplyDao qnaReplyDao = new QnaReplyDao();
-	List<QnaReplyDto> list = qnaReplyDao.list(qnaBoardNo);
+	QnaReplyMemberDao qnaReplyMemberDao = new QnaReplyMemberDao();
+	List<QnaReplyMemberDto> list = qnaReplyMemberDao.list(qnaBoardNo);
 	
 	int memberNo = (int)session.getAttribute("member");
 	MemberDao memberDao = new MemberDao();
 	MemberDto memberDto = memberDao.getMember(memberNo);
+	
+	
 %>
 
 <jsp:include page="/template/header.jsp"></jsp:include>
@@ -152,8 +156,8 @@
 
 .notice-bottom{
 	width: 950px; 
-	margin: 30px 10px 5px 0px;
-	padding: 7px 0 5px 0;
+	margin: 15px auto;
+	padding: 10px 20px 10px 0;
 	text-align: right;	
 }
 
@@ -168,7 +172,7 @@
 }
 
 .list-btn:hover{
-	background-color: #FF8E99;
+	background-color: #FFD5B4;
 	border: none;
 	color: black;
 }
@@ -255,6 +259,7 @@
 	<h2 class="subtitle">문의확인</h2>
 	
 	<div class="qna-notice-row">
+     
 		<div class="notice-title">
 			<strong style="padding:0 0 0 10px;"><%=qnaBoardDto.getQnaBoardTitle() %></strong>
 			<span><%=qnaBoardDto.getQnaBoardTime() %></span>
@@ -266,45 +271,46 @@
 			</div>
 		</div>
 	<!-- 버튼 -->
-       
-     <div class="notice-bottom">
-        <a href="qnaBoardEdit.jsp?qnaBoardNo=<%=qnaBoardNo%>">수정</a>
-        <a href="qnaboardDelete.kh?qnaBoardNo=<%=qnaBoardNo%>" >삭제</a>
-        <a class="notice-list" href="qnaMyList.jsp">나의 1:1 문의목록</a>
-     </div>
+		<%if(memberNo == qnaBoardDto.getQnaBoardWriter()){ %>
+    	<div class="notice-bottom">
+	        <a class="form-btn form-btn-normal delete-btn" href="qnaBoardEdit.jsp?qnaBoardNo=<%=qnaBoardNo%>">수정</a>
+	        <a class="form-btn form-btn-normal delete-btn" href="qnaboardDelete.kh?qnaBoardNo=<%=qnaBoardNo%>" >삭제</a>
+     	</div>
+     	<%} %>
+     	
 		<div class="notice-reply-line" style="margin-left:10px;">	</div>
 					
 		<div class="notice-reply">
 			<%if(list != null) { %>
-				<%for(QnaReplyDto qnaReplyDto : list){ %>
-					<div class="row re" id="re<%=qnaReplyDto.getQnaReplyNo() %>">
+				<%for(QnaReplyMemberDto qnaReplyMemberDto : list){ %>
+					<div class="row re" id="re<%=qnaReplyMemberDto.getQnaReplyNo() %>">
 						<div class="row">
-							<span><%=qnaReplyDto.getQnaReplyWriter() %></span>
+							<span><%=qnaReplyMemberDto.getMemberId() %></span>
 						</div>
 						<div class="row">
-							<span><%=qnaReplyDto.getQnaReplyContent() %></span>
+							<span><%=qnaReplyMemberDto.getQnaReplyContent() %></span>
 						</div>
 						<div class="row">
-							<span style="display:inline-block; text-align:left;"><%=qnaReplyDto.getQnaReplyTime().toLocaleString() %></span>
-							<%if(memberNo == qnaReplyDto.getQnaReplyWriter()) {%>
+							<span style="display:inline-block; text-align:left;"><%=qnaReplyMemberDto.getQnaReplyTime().toLocaleString() %></span>
+							<%if(memberNo == qnaReplyMemberDto.getQnaReplyWriter()) {%>
 								<div style="float:right;">																
-									<a id="<%=qnaReplyDto.getQnaReplyNo()%>" "href="#" onclick="updateReply(this); return false" class="form-btn form-btn-normal update-btn">수정</a>							
-									<a href="deleteQnaReply.kh?qnaReplyNo=<%=qnaReplyDto.getQnaReplyNo() %>&qnaReplyWriter=<%=qnaReplyDto.getQnaReplyWriter() %>&qnaReplyOrigin=<%=qnaReplyDto.getQnaReplyOrigin() %>" 
+									<a id="<%=qnaReplyMemberDto.getQnaReplyNo()%>" href="#" onclick="updateReply(this); return false" class="form-btn form-btn-normal update-btn">수정</a>							
+									<a href="deleteQnaReply.kh?qnaReplyNo=<%=qnaReplyMemberDto.getQnaReplyNo() %>&qnaReplyWriter=<%=qnaReplyMemberDto.getQnaReplyWriter() %>&qnaReplyOrigin=<%=qnaReplyMemberDto.getQnaReplyOrigin() %>" 
 									class="form-btn form-btn-normal delete-btn">삭제</a>															
 								</div>								
 							<%} %>
 						</div>
 					</div>
 					
-					<div class="notice-update-reply up" id="up<%=qnaReplyDto.getQnaReplyNo() %>" style="display:none;">
+					<div class="notice-update-reply up" id="up<%=qnaReplyMemberDto.getQnaReplyNo() %>" style="display:none;">
 						<form action="updateQnaReply.kh" method="post" >
 							<div class="row">
 								<div class="row">
 									<strong><%=memberDto.getMemberId() %></strong>
 								</div>
 								<div class="row">							
-									<textarea name="qnaReplyContent" placeholder="<%=qnaReplyDto.getQnaReplyContent() %>" rows="1" class="comment_inbox_text" id="comment_update" style="overflow: hidden; overflow-wrap: break-word; height: 30px;" required></textarea>
-									<input type="hidden" name="qnaReplyNo" value="<%=qnaReplyDto.getQnaReplyNo() %>">
+									<textarea name="qnaReplyContent" placeholder="<%=qnaReplyMemberDto.getQnaReplyContent() %>" rows="1" class="comment_inbox_text" id="comment_update" style="overflow: hidden; overflow-wrap: break-word; height: 30px;" required></textarea>
+									<input type="hidden" name="qnaReplyNo" value="<%=qnaReplyMemberDto.getQnaReplyNo() %>">
 									<input type="hidden" name="qnaReplyWriter" value="<%=memberNo %>">
 									<input type="hidden" name="qnaReplyOrigin" value="<%=qnaBoardNo %>" >
 								</div>
@@ -345,7 +351,7 @@
 	
 	<div class="notice-bottom">
 			<a class="form-btn form-btn-normal list-btn" href="qnaMyList.jsp" >나의 1:1 문의목록</a>
-		</div>
+	</div>
 </div>
 
 <jsp:include page="/template/footer.jsp"></jsp:include>
