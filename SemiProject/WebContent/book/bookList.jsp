@@ -1,4 +1,3 @@
-
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="semi.beans.GenreDto"%>
 <%@page import="semi.beans.GenreDao"%>

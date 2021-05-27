@@ -8,7 +8,7 @@
     pageEncoding="UTF-8"%>
 
 <%
-	Long no = Long.parseLong(request.getParameter("no"));
+	long no = Long.parseLong(request.getParameter("no"));
 	String root = request.getContextPath();
 
 	BookDao bookDao = new BookDao();
