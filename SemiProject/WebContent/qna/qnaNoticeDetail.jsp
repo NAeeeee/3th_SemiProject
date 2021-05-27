@@ -18,7 +18,13 @@
 	NoticeBoardDto nextBoardDto = noticeBoardDao.getNext(noticeBoardNo);
 	
 	//조회수 증가
-	int member = (int)session.getAttribute("member");
+	int member;
+	try{
+		member = (int)session.getAttribute("member");
+	}
+	catch(Exception e){
+		member = 0;
+	}
 	Set<Integer> noticeBoardNoSet;
 	if(session.getAttribute("noticeBoardNoSet") != null){//세션에 boardNoSet이라는 이름의 저장소가 있다면 --> 저장소 추출
 		noticeBoardNoSet = (Set<Integer>)session.getAttribute("noticeBoardNoSet");

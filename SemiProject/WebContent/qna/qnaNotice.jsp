@@ -5,7 +5,13 @@
 	pageEncoding="UTF-8"%>
 
 <%
-	int member = (int)session.getAttribute("member");	
+	int member;
+	try{
+		member = (int)session.getAttribute("member");
+	}
+	catch(Exception e){
+		member = 0;
+	}
 
 	//페이지 네이셔 구현 코드
 	int pageNo;//현재 페이지 번호
