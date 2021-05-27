@@ -1,47 +1,62 @@
 @charset "UTF-8";
 
-.change-text{
-	padding:0px 10px;
-}
-.change-text:hover, .change-text:active{
- 			text-decoration:underline;
- 			color:#ff6b6b;
- 			
- 		}
-.sub-nav{
-	margin-top:30px;
-	margin-bottom: 30px;
-}
-.ranking-img{
-	width:85%;
-	height:85%;
+.book-list{
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	flex-flow: wrap;
 }
 
-.arrow{
-	width:20%;
-	height:20%;
-	margin-top:80px;
-}
-.product-box{
-	padding:86px 0 0 0;
+/* 5개짜리 */
+.book-item {
+    width: 16%;
+    height: 300px;
+    margin: 0 24px 12% 24px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+} 
 
+/* 6개짜리 */
+/* .book-item {                   
+    width: 14.5%;
+    height: 280px;
+    margin: 2% 13px;
+} */
+ 
+.book-img{
+	width:100%;
+	height:100%;
+	object-fit:fill;
 }
-/*.product-box .box{
-	max-width:1400px;
-	margin:50px 20px;
+.book-img-a{
+	display:block;
+	width: 100%;
+	height:100%;
 }
-.product-box .box .item-wrap{
-	max-width:1410px;
-	
+.book-img-a>img{
+	border-radius: 10px;
 }
-.product-box .box .item{
+.book-publisher{
+	display:block;
+	font-size: 12px;
+	padding:10px 2px;
+	color:rgba(0,0,0,0.5);
+}
+.book-title{
 	display:block;
 	
-	margin: 0 -17.5px;
-	margin-bottom:-57px;
-	font-size:0;
-}*/
-.item-image{
-	width:50%;
-	height:50%;
+}
+.book-author{
+	display:block;
+	text-align: right;
+	padding:10px 2px;
+	font-size: 14px;
+	font-weight: 900;
+	color:rgba(0,0,0,0.7);
+}
+.book-price{
+	font-size: 18px;
+	font-weight: 900;
+	color: #ff9f43; 
+	
 }
