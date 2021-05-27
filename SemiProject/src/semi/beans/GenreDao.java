@@ -85,5 +85,64 @@ public class GenreDao {
 		return genreList;
 
 	}
-	
+	public GenreDto get(Long no) throws Exception{
+		Connection con = JdbcUtils.getConnection();
+		String sql="select * from genre where genre_no=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setLong(1, no);
+		ResultSet rs = ps.executeQuery();
+		
+		GenreDto genreDto;
+		if(rs.next()) {
+			genreDto=new GenreDto();
+			
+			genreDto.setGenreNo(rs.getLong("genre_no"));
+			genreDto.setGenreName(rs.getString("genre_name"));
+			genreDto.setGenreParents(rs.getLong("genre_parents"));
+		}else {
+			genreDto=null;
+		}
+		con.close();
+		return genreDto;
+	}
+	public GenreDto getParents(Long no) throws Exception{
+		Connection con = JdbcUtils.getConnection();
+		String sql="select genre_parents from genre where genre_no=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setLong(1, no);
+		ResultSet rs = ps.executeQuery();
+		
+		GenreDto genreDto;
+		if(rs.next()) {
+			genreDto=new GenreDto();
+			
+			genreDto.setGenreNo(rs.getLong("genre_no"));
+			genreDto.setGenreName(rs.getString("genre_name"));
+			genreDto.setGenreParents(rs.getLong("genre_parents"));
+		}else {
+			genreDto=null;
+		}
+		con.close();
+		return genreDto;
+	}
+	public List<GenreDto> sameGenreList(Long no) throws Exception{
+		Connection con = JdbcUtils.getConnection();
+		String sql="select * from genre where genre_no=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setLong(1, no);
+		ResultSet rs = ps.executeQuery();
+		List<GenreDto> genreList=new ArrayList<>();
+		while(rs.next()) {
+			GenreDto genreDto=new GenreDto();
+			genreDto.setGenreNo(rs.getLong("genre_no"));
+			genreDto.setGenreName(rs.getString("genre_name"));
+			genreDto.setGenreParents(rs.getLong("genre_parents"));
+			
+			genreList.add(genreDto);
+		}
+		con.close();
+		return genreList;
+	}
+
+
 }

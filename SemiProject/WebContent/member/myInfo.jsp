@@ -8,15 +8,15 @@
 
 	boolean isLogin = session.getAttribute("member") != null;
 	
-	if(!isLogin){		
+	if(!isLogin){	
 		response.sendRedirect("login.jsp");
+		return;
 	}
 	
 	int memberNo = (int)session.getAttribute("member");
 	MemberDao memberDao = new MemberDao();
 	MemberDto memberDto = memberDao.getMember(memberNo);
 %>
-
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
 	window.addEventListener("load",function(){
@@ -56,7 +56,7 @@
 			}
 		}); 
 	});
-  
+	
 	$(function(){
 		$("#memberDelete").click(function(){
 			var result = confirm('정말 탈퇴하시겠습니까?');
@@ -144,11 +144,11 @@
 							<input type="hidden" name="memberId" value="<%=memberDto.getMemberId() %>">
 							<span class="hidden">아이디는 4~20자 영문 소문자,숫자 조합으로 등록해주세요</span>
 							<div><span>비밀번호</span><input type="password" placeholder="6-20자:영문,숫자,특수문자조합(!@#$)" name="memberPw" required></div>
-							<span class="hidden">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
+							<span class="hidden" style="margin-right:665px; text-align: right;">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
 							<div><span>새 비밀번호</span><input type="password" placeholder="6-20자:영문,숫자,특수문자조합(!@#$)" name="newMemberPw" class="js_pw" required></div>
-							<span class="hidden">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
+							<span class="hidden" style="margin-right:665px; text-align: right;">비밀번호는 6~20자 영문,숫자,특수문자조합(!@#$) 으로 등록해주세요</span>
 							<div><span>새 비밀번호 확인</span><input type="password" class="js_pw_c" required></div>
-							<span class="hidden">비밀번호를 확인해주세요</span>
+							<span class="hidden" style="margin-left:514px; text-align: left;">비밀번호를 확인해주세요</span>
 							<div><span>휴대전화</span><input type="text" name="memberPhone" value="<%=memberDto.getMemberPhone() %>" required></div>
 							<span class="hidden">.</span>
 							<div><span>생일</span><input type="date" name="memberBirth" value="<%=memberDto.getMemberBirth() %>" required></div>
@@ -168,10 +168,6 @@
 					</div>
 				</div>
 			</article>
-		</section>
-		
+		</section>		
 	</main>
-
-
-	
 <jsp:include page="/template/footer.jsp"></jsp:include>
