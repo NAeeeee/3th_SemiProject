@@ -9,8 +9,14 @@
 	pageEncoding="UTF-8"%>
 
 <%
-	int member = (int)session.getAttribute("member");
 	request.setCharacterEncoding("UTF-8");
+	int member;
+	try{
+		member = (int)session.getAttribute("member");
+	}
+	catch(Exception e){
+		member = 0;
+	}
 	String qnaBoardHeader = request.getParameter("qnaBoardHeader");
 	
 	boolean isHeader = qnaBoardHeader != null ;
