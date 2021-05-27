@@ -28,6 +28,26 @@ public class GenreDao {
         con.close();
         return genreList;
 	}
+	public GenreDto get(Long no) throws Exception{
+	      Connection con = JdbcUtils.getConnection();
+	      String sql="select * from genre where genre_no=?";
+	      PreparedStatement ps = con.prepareStatement(sql);
+	      ps.setLong(1, no);
+	      ResultSet rs = ps.executeQuery();
+	      
+	      GenreDto genreDto;
+	      if(rs.next()) {
+	         genreDto=new GenreDto();
+	         
+	         genreDto.setGenreNo(rs.getLong("genre_no"));
+	         genreDto.setGenreName(rs.getString("genre_name"));
+	         genreDto.setGenreParents(rs.getLong("genre_parents"));
+	      }else {
+	         genreDto=null;
+	      }
+	      con.close();
+	      return genreDto;
+	   }
 	
 	//검색 기능
 	public List<GenreDto> search(int genreParents) throws Exception{

@@ -1,0 +1,18 @@
+@charset "UTF-8";
+.goods_image{
+padding:0;
+ 
+}
+
+.searchTitle, .searchPrice, .searchDiscount{
+	font-size:20px;
+	font-weight:bold; 
+
+	}
+.searchAuthor, .searchPublisher, .searchPubdate, .searchGenre{
+	font-size:10px;
+}
+
+.searchTable{
+	border-bottom:1px solid black; 
+}

@@ -69,8 +69,9 @@
 		<div><a href="<%=root%>"><span>BOOKin</span></a></div>
 	</div>
 	<div class="search-form-area">
-		<form class="search-form">
-			<input type="search" class="search-input">
+		<form class="search-form" action="<%=root%>/book/bookSearch.jsp">
+			<input type="search" name="keyword" class="search-input">
+			
 			<button type="submit" class="search-btn"></button>
 		</form>
 	</div>
