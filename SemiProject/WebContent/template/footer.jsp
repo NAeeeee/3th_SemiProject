@@ -41,5 +41,10 @@
 		<p style="color:white;font-size: 12px">COPYRIGHT (C) 2021 BOOKin ALL RIGHTS RESERVED.</p>
 	</div>
 </div>
+
+
+	
+
+
 </body>
 </html>
