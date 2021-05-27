@@ -345,12 +345,13 @@ public class BookDao {
 				return bookList;
 			}
 		   
-		 //페이지블럭 계산을 위한 카운트 기능(목록/검색)
-			public int getCount() throws Exception {
+		 //페이지블럭 계산을 위한 카운트 기능(title)
+			public int getTitleCount(String keyword) throws Exception {
 				Connection con = JdbcUtils.getConnection();;
 				
-				String sql = "select count(*) from book";
+				String sql = "select count(*) from book where instr(book_title,?)>0";
 				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setString(1, keyword);
 				ResultSet rs = ps.executeQuery();
 				rs.next();
 				int count = rs.getInt(1);
@@ -360,6 +361,37 @@ public class BookDao {
 				return count;
 			}
 		 
+			//페이지블럭 계산을 위한 카운트 기능(author)
+			public int getAuthorCount(String keyword) throws Exception {
+				Connection con = JdbcUtils.getConnection();;
+				
+				String sql = "select count(*) from book where instr(book_author,?)>0";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setString(1, keyword);
+				ResultSet rs = ps.executeQuery();
+				rs.next();
+				int count = rs.getInt(1);
+				
+				con.close();
+				
+				return count;
+			}
 
+			//페이지블럭 계산을 위한 카운트 기능(publisher)
+			public int getPublisherCount(String keyword) throws Exception {
+				Connection con = JdbcUtils.getConnection();;
+				
+				String sql = "select count(*) from book where instr(book_publisher,?)>0";
+				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setString(1, keyword);
+				ResultSet rs = ps.executeQuery();
+				rs.next();
+				int count = rs.getInt(1);
+				
+				con.close();
+				
+				return count;
+			}
+			
 		}
 

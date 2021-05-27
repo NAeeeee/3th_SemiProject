@@ -32,7 +32,7 @@ try{
 	}
 }
 catch(Exception e){
-	pageSize = 10;//기본값 5개
+	pageSize = 10;//1페이지당 10개 씩 보여주기
 }
 
 //(2) rownum의 시작번호(startRow)와 종료번호(endRow)를 계산

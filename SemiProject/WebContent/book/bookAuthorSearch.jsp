@@ -47,7 +47,31 @@ bookList = bookDao.list();
 else{
 	bookList = bookDao.authorsearch(keyword,startRow,endRow);
 }
+
+//= 하단에 표시되는 숫자 링크의 범위를 페이지번호를 기준으로 계산하여 설정
+	// = 하단 네비게이션 숫자는 startBlock 부터 endBlock 까지 출력
+	// = (주의사항) 게시글 개수를 구해서 마지막 블록 번호를 넘어가지 않도록 처리
+
+
+int count;
+
+	count = bookDao.getAuthorCount(keyword); 
+
+
+int blockSize = 10;
+int lastBlock = (count + pageSize - 1) / pageSize;
+//	int lastBlock = (count - 1) / pageSize + 1;
+int startBlock = (pageNo - 1) / blockSize * blockSize + 1;
+int endBlock = startBlock + blockSize - 1;
+
+if(endBlock > lastBlock){//범위를 벗어나면
+	endBlock = lastBlock;//범위를 수정
+}
+
+
 %>
+<jsp:include page="/template/header.jsp"></jsp:include>
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -106,8 +130,31 @@ else{
 					
 										<%}%>
 				
+		
+	</div>
+				
 				</tbody>
 			</table>
 		</div>
+		<div class="pagination">
+		
+			<%if(startBlock > 1){ %>
+			<a class="move-link">이전</a>
+			<%} %>
+			
+			<%for(int i = startBlock; i <= endBlock; i++){ %>
+				<%if(i == pageNo){ %>
+					<a class="on"><%=i%></a>
+				<%}else{ %>
+					<a><%=i%></a>
+				<%} %>
+			<%} %>
+			
+			<%if(endBlock < lastBlock){ %>
+			<a class="move-link">다음</a>
+			<%} %>
+			
+		</div>
 </body>
 </html>
+<jsp:include page="/template/footer.jsp"></jsp:include>
