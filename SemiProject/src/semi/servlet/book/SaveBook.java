@@ -34,10 +34,16 @@ public class SaveBook extends HttpServlet{
 			resp.getWriter().println("책 추가중");
 			Class.forName("oracle.jdbc.OracleDriver");
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","semiadmin","semiadmin");
-			String sql = "select * from (select rownum a,G.* from genre G where genre_no>1000100) where a between ? and ?";
+			String sql = "select * from ( "
+					+ "			 select rownum rn,tmp.* from  "
+					+ "			       (select * from genre where genre_no>1000100 "
+					+ "			  )tmp "
+					+ "			) where rn between ? and ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, Integer.parseInt(req.getParameter("start")));
 			ps.setInt(2, Integer.parseInt(req.getParameter("end")));
+			System.out.println(req.getParameter("start"));
+			System.out.println(req.getParameter("end"));
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				Thread.sleep(200);
@@ -65,8 +71,13 @@ public class SaveBook extends HttpServlet{
 					System.out.println(keyword);
 					
 					String text = URLEncoder.encode(keyword, "UTF-8");
-					
-					URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?d_titl="+text+"&d_catg="+gerneNo+"&display=10&start=1");
+					URL url;
+					if(String.valueOf(gerneNo).startsWith("330")) {
+						long gerneNo2=(long) (gerneNo/100);
+						url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?d_titl="+text+"&d_catg="+gerneNo2+"&display=10&start=1");
+					}else {
+						url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?d_titl="+text+"&d_catg="+gerneNo+"&display=10&start=1");
+					}
 					HttpURLConnection con = (HttpURLConnection) url.openConnection();
 					con.setRequestMethod("GET");
 					
@@ -111,7 +122,8 @@ public class SaveBook extends HttpServlet{
 								}
 								value=value.replaceAll("<b>", "");
 								value=value.replaceAll("</b>", "");
-								System.out.println("book_"+sub_el.getNodeName() + "::::value="+value);
+//								System.out.println("book_"+sub_el.getNodeName() + "::::value="+value);
+								
 								dbList.add(value);
 								if(sub_el.getAttributes().getNamedItem("id")!=null)
 									System.out.println("id="+ sub_el.getAttributes().getNamedItem("id").getNodeValue() );

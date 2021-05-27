@@ -23,6 +23,8 @@
 	}else{
  		bookList =bookdao.list(infPage);
 	}
+	
+	
 	DecimalFormat format = new DecimalFormat("###,###");
 %>
 <link rel="stylesheet" type="text/css" href="<%= root%>/css/list.css">
@@ -33,15 +35,29 @@
 	<%for(BookDto bookDto : bookList){ %>
 	<div class="book-item">
 		<a href="/bookDetail.jsp?" class="book-img-a">
+		<%if(bookDto.getBookImage()==null){
+			bookDto.setBookImage(root+"/image/nullbook.png");
+		} %>
 			<img title="<%=bookDto.getBookTitle() %>" class="book-img" src="<%=bookDto.getBookImage()%>">
 		</a>
 		<a class="book-publisher"><span><%=bookDto.getBookPublisher() %></span></a>
 		<a class="book-title overflow"  title="<%=bookDto.getBookTitle() %>"><%=bookDto.getBookTitle() %></a>
+		<%if(bookDto.getBookAuthor()==null){
+			bookDto.setBookAuthor("편집부");
+		} %>
 		<a class="book-author overflow" title="<%=bookDto.getBookAuthor() %>"><%=bookDto.getBookAuthor() %></a>
 
+	<%if(bookDto.getBookDiscount()!=0 && bookDto.getBookDiscount()!=bookDto.getBookPrice()){ %>
 		<div style="width: 100%;text-align: right;">
+		<a class="book-discount"><%=bookDto.getBookPrice()/(bookDto.getBookPrice()-bookDto.getBookDiscount())%>%</a>
+		<a class="book-price"><%=format.format(bookDto.getBookDiscount()) %></a><a style="font-weight: 900;color:rgba(0,0,0,0.5);"> 원</a>
+		</div>
+	<%}else{ %>
+		<div style="width: 100%;text-align: right;">
+		
 		<a class="book-price"><%=format.format(bookDto.getBookPrice()) %></a><a style="font-weight: 900;color:rgba(0,0,0,0.5);"> 원</a>
 		</div>
+	<%} %>
 	</div>   
 	<%} %>
 	</div>
