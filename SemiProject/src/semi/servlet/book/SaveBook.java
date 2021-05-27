@@ -66,7 +66,7 @@ public class SaveBook extends HttpServlet{
 					
 					String text = URLEncoder.encode(keyword, "UTF-8");
 					
-					URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?d_titl="+text+"&d_catg=100"+"&display=10&start=1");
+					URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?d_titl="+text+"&d_catg="+gerneNo+"&display=10&start=1");
 					HttpURLConnection con = (HttpURLConnection) url.openConnection();
 					con.setRequestMethod("GET");
 					
@@ -118,6 +118,7 @@ public class SaveBook extends HttpServlet{
 								
 							}
 						}
+						System.out.println("book_genre:::value="+gerneNo);
 						System.out.println(dbList);
 						String sql2 = "insert into book values(book_seq.nextval,?,?,?,?,?,?,?,?,?)";
 						PreparedStatement ps2 = conn.prepareStatement(sql2);

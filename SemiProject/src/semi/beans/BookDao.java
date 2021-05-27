@@ -18,15 +18,15 @@ public class BookDao {
 		String sql="insert into book values(book_seq.nextval,?,?,?,?,?,?,?,?,?,sysdate)";
 		 PreparedStatement ps = con.prepareStatement(sql);
 	      
-         ps.setString(1, bookDto.getBookName());
-         ps.setString(2, bookDto.getBookWriter());
-         ps.setString(3, bookDto.getBookPublisher());
-         ps.setString(4, bookDto.getBookGenre());
-         ps.setString(5,bookDto.getBookNation());
-         ps.setInt(6,bookDto.getBookPrice());
-         ps.setString(7, bookDto.getBookInfo());
-         ps.setString(8, bookDto.getBookImg());
-         ps.setString(9, bookDto.getBookTable());
+//         ps.setString(1, bookDto.getBookName());
+//         ps.setString(2, bookDto.getBookWriter());
+//         ps.setString(3, bookDto.getBookPublisher());
+//         ps.setString(4, bookDto.getBookGenre());
+//         ps.setString(5,bookDto.getBookNation());
+//         ps.setInt(6,bookDto.getBookPrice());
+//         ps.setString(7, bookDto.getBookInfo());
+//         ps.setString(8, bookDto.getBookImg());
+//         ps.setString(9, bookDto.getBookTable());
         
          ps.execute();
          
@@ -44,18 +44,15 @@ public class BookDao {
         while(rs.next()) {
            BookDto bookDto = new BookDto();
            bookDto.setBookNo(rs.getInt("book_no"));
-           bookDto.setBookName(rs.getString("book_name"));
-           bookDto.setBookWriter(rs.getString("book_writer"));
+           bookDto.setBookTitle(rs.getString("book_title"));
+           bookDto.setBookImage(rs.getString("book_image"));
+           bookDto.setBookAuthor(rs.getString("book_author"));
            bookDto.setBookPublisher(rs.getString("book_publisher"));
-           bookDto.setBookGenre(rs.getString("book_genre"));
-           bookDto.setBookNation(rs.getString("book_nation"));
+           bookDto.setBookDescription(rs.getString("book_description"));
            bookDto.setBookPrice(rs.getInt("book_price"));
-           bookDto.setBookInfo(rs.getString("book_info"));
-           bookDto.setBookImg(rs.getString("book_img"));
-           bookDto.setBookTable(rs.getString("book_table"));
-           bookDto.setBookStart(rs.getDate("book_start"));
-           
-           
+           bookDto.setBookDiscount(rs.getInt("book_discount"));
+           bookDto.setBookPubDate(rs.getDate("book_pubdate"));
+           bookDto.setBookGenreNo(rs.getLong("book_genre"));
            bookList.add(bookDto);
         }
         
@@ -63,6 +60,71 @@ public class BookDao {
         
         return bookList;
 	}
-
+	
+	public List<BookDto> list(int num) throws Exception{
+		Connection con = JdbcUtils.getConnection();
+		String sql="select * from (  "
+				+ "    select tmp.*,rownum rn from "
+				+ "        (select * from book order by book_no desc"
+				+ "    )tmp"
+				+ ") where rn between ? and ?";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, num*20-19);
+		ps.setInt(2, num*20);
+        ResultSet rs = ps.executeQuery();
+        List<BookDto> bookList = new ArrayList<>();
+        while(rs.next()) {
+           BookDto bookDto = new BookDto();
+           bookDto.setBookNo(rs.getInt("book_no"));
+           bookDto.setBookTitle(rs.getString("book_title"));
+           bookDto.setBookImage(rs.getString("book_image"));
+           bookDto.setBookAuthor(rs.getString("book_author"));
+           bookDto.setBookPublisher(rs.getString("book_publisher"));
+           bookDto.setBookDescription(rs.getString("book_description"));
+           bookDto.setBookPrice(rs.getInt("book_price"));
+           bookDto.setBookDiscount(rs.getInt("book_discount"));
+           bookDto.setBookPubDate(rs.getDate("book_pubdate"));
+           bookDto.setBookGenreNo(rs.getLong("book_genre"));
+           bookList.add(bookDto);
+        }
+        
+        con.close();
+        
+        return bookList;
+	}
+	
+	public List<BookDto> genreList(Long genreNo,int num) throws Exception{
+		Connection con = JdbcUtils.getConnection();
+		String sql="select * from (  "
+				+ "    select tmp.*,rownum rn from "
+				+ "        (select * from book where book_genre like '"+genreNo+"%' order by book_no desc"
+				+ "    )tmp"
+				+ ") where rn between ? and ?";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, num*20-19);
+		ps.setInt(2, num*20);
+        ResultSet rs = ps.executeQuery();
+        List<BookDto> bookList = new ArrayList<>();
+        while(rs.next()) {
+           BookDto bookDto = new BookDto();
+           bookDto.setBookNo(rs.getInt("book_no"));
+           bookDto.setBookTitle(rs.getString("book_title"));
+           bookDto.setBookImage(rs.getString("book_image"));
+           bookDto.setBookAuthor(rs.getString("book_author"));
+           bookDto.setBookPublisher(rs.getString("book_publisher"));
+           bookDto.setBookDescription(rs.getString("book_description"));
+           bookDto.setBookPrice(rs.getInt("book_price"));
+           bookDto.setBookDiscount(rs.getInt("book_discount"));
+           bookDto.setBookPubDate(rs.getDate("book_pubdate"));
+           bookDto.setBookGenreNo(rs.getLong("book_genre"));
+           bookList.add(bookDto);
+        }
+        
+        con.close();
+        
+        return bookList;
+	}
 }
 
