@@ -1,3 +1,4 @@
+
 <%@page import="java.util.List"%>
 <%@page import="semi.beans.GenreDto"%>
 <%@page import="semi.beans.GenreDao"%>
@@ -39,8 +40,6 @@
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/common.css">
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/template.css">
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/signup.css">
-    <link rel="stylesheet" type="text/css" href="<%= root%>/css/list.css">
-    <link rel="stylesheet" type="text/css" href="<%= root%>/css/detail.css">
    <style>
 		
    </style>
@@ -159,3 +158,5 @@
 	})
 </script>
 <section style="min-height: 800px" class="container-1200">
+
+

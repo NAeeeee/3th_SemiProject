@@ -10,6 +10,7 @@ import semi.beans.BookDto;
 
 public class BookDao {
 
+
    
    //등록 기능
    public void registBook(BookDto bookDto) throws Exception{
@@ -221,3 +222,4 @@ public List<BookDto> genreSearch(long no) throws Exception{
 }
    
 }
+

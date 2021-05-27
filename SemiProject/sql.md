@@ -36,3 +36,21 @@ qna_board_time date default sysdate not null
 );
 
 create sequence qna_board_seq nocache;
+#book 테이블 생성, sequence 생성
+create table book(
+book_no number(10) primary key,
+book_name varchar2(150) not null,
+book_writer varchar2(50) not null,
+book_publisher varchar2(50) not null,
+book_genre varchar2(30) not null,
+book_nation varchar2(30) not null,
+book_price number(10) not null,
+book_info varchar(4000) ,
+book_img varchar2(100),
+book_table varchar2(4000),
+book_start date  default sysdate not null
+);
+create sequence book_seq;
+
+
+
