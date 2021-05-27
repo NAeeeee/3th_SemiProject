@@ -26,14 +26,14 @@
 		member = 0;
 	}
 	Set<Integer> noticeBoardNoSet;
-	if(session.getAttribute("noticeBoardNoSet") != null){//세션에 boardNoSet이라는 이름의 저장소가 있다면 --> 저장소 추출
+	if(session.getAttribute("noticeBoardNoSet") != null){
 		noticeBoardNoSet = (Set<Integer>)session.getAttribute("noticeBoardNoSet");
 	}
-	else{//세션에 boardNoSet이라는 이름의 저장소가 없다면
+	else{
 		noticeBoardNoSet = new HashSet<>();
 	}
 	
-	if(noticeBoardNoSet.add(noticeBoardNo)){//boardNoSet에 현재 글번호(boardNo)가 추가되었다면 --> 처음 읽는 글
+	if(noticeBoardNoSet.add(noticeBoardNo)){
 		noticeBoardDao.read(noticeBoardNo, member);//조회수 증가
 	}
 %>
