@@ -36,7 +36,9 @@ tmp/
 *.swp
 *~.nib
 local.properties
+/.settings/
 .settings/
+.settings
 .loadpath
 .recommenders
 
