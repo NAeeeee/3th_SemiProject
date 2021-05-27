@@ -8,11 +8,14 @@
     pageEncoding="UTF-8"%>
 
 <%
-	//int no = Integer.parseInt(request.getParameter("no"));
-int no =5258;
+	Long no = Long.parseLong(request.getParameter("no"));
+	String root = request.getContextPath();
+
 	BookDao bookDao = new BookDao();
 	BookDto bookDto = bookDao.get(no);
-	String root = request.getContextPath();
+	if(bookDto.getBookImage()==null){
+		bookDto.setBookImage(root+"/image/nullbook.png");
+	}
 	
 	GenreDao genreDao=new GenreDao();
 	GenreDto genreDto=genreDao.get(bookDto.getBookGenreNo());

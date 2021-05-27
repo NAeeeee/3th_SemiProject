@@ -34,14 +34,14 @@
 <div class=" book-list inf-list">
 	<%for(BookDto bookDto : bookList){ %>
 	<div class="book-item">
-		<a href="/bookDetail.jsp?" class="book-img-a">
+		<a href="<%=root%>/book/bookDetail.jsp?no=<%=bookDto.getBookNo()%>" class="book-img-a">
 		<%if(bookDto.getBookImage()==null){
 			bookDto.setBookImage(root+"/image/nullbook.png");
 		} %>
 			<img title="<%=bookDto.getBookTitle() %>" class="book-img" src="<%=bookDto.getBookImage()%>">
 		</a>
 		<a class="book-publisher"><span><%=bookDto.getBookPublisher() %></span></a>
-		<a class="book-title overflow"  title="<%=bookDto.getBookTitle() %>"><%=bookDto.getBookTitle() %></a>
+		<a href="<%=root%>/book/bookDetail.jsp?no=<%=bookDto.getBookNo()%>" class="book-title overflow"  title="<%=bookDto.getBookTitle() %>"><%=bookDto.getBookTitle() %></a>
 		<%if(bookDto.getBookAuthor()==null){
 			bookDto.setBookAuthor("편집부");
 		} %>

@@ -32,13 +32,13 @@ public class BookDao {
          
          con.close();
    }
-   public BookDto get(int no) throws Exception {
+   public BookDto get(Long no) throws Exception {
 		Connection con = JdbcUtils.getConnection();
 		;
 
 		String sql = "select * from book where book_no = ?";
 		PreparedStatement ps = con.prepareStatement(sql);
-		ps.setInt(1, no);
+		ps.setLong(1, no);
 		ResultSet rs = ps.executeQuery();
 
 		BookDto bookDto;
