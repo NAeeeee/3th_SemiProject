@@ -1,4 +1,5 @@
 
+
 <%@page import="java.util.List"%>
 <%@page import="semi.beans.GenreDto"%>
 <%@page import="semi.beans.GenreDao"%>
@@ -19,18 +20,6 @@
 	}
 	GenreDao genreDao=new GenreDao();
 	List<GenreDto> genreList=genreDao.topGenreList();
-	System.out.println(genreList);
-	for(GenreDto gt : genreList){
-		List<GenreDto> sublist=	genreDao.childGenreList(gt.getGenreNo());
-		System.out.println(gt.getGenreName());
-		for(GenreDto gt2 : sublist){
-			System.out.println("\t"+gt2.getGenreName());
-			List<GenreDto> sublist2=genreDao.childGenreList(gt2.getGenreNo());
-			for(GenreDto gt3 : sublist2){
-				System.out.println("\t"+"\t"+gt3.getGenreName());
-			}
-		}
-	}
 %>
 <!DOCTYPE html>
 <html>
@@ -40,8 +29,7 @@
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/common.css">
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/template.css">
     <link rel="stylesheet" type="text/css" href="<%= root%>/css/signup.css">
-      <link rel="stylesheet" type="text/css" href="<%= root%>/css/detail.css">
-        <link rel="stylesheet" type="text/css" href="<%= root%>/css/list.css">
+     <link rel="stylesheet" type="text/css" href="<%= root%>/css/detail.css">
    <style>
 		
    </style>
@@ -122,18 +110,18 @@
 		<li><a class="site-color-red change-a"  href="#" >NEW</a></li>
 	<% for(int i=0;i<genreList.size();i++){ %>
 		<li>
-			<a class="change-a" href="#"> <%=genreList.get(i).getGenreName() %></a>
+			<a class="change-a" href="?genre=<%=genreList.get(i).getGenreNo()%>"> <%=genreList.get(i).getGenreName() %></a>
 			<ul class="sub-menu">
 			<% 
 			List<GenreDto> sublist=	genreDao.childGenreList(genreList.get(i).getGenreNo());
 			for(int j =0;j<sublist.size();j++){ %>
 				<li>
-					<a href="#" class="change-a_noani overflow"><%=sublist.get(j).getGenreName() %></a>
+					<a href="?genre=<%=sublist.get(j).getGenreNo()%>" class="change-a_noani overflow"><%=sublist.get(j).getGenreName() %></a>
 					<ul class="sub-sub-menu">
 						<%
 						List<GenreDto> sublist2=genreDao.childGenreList(sublist.get(j).getGenreNo());
 						for(int k =0;k<sublist2.size();k++){ %>
-							<li><a href="#" class="change-a_noani overflow"><%=sublist2.get(k).getGenreName() %></a></li>
+							<li><a href="?genre=<%=sublist2.get(k).getGenreNo()%>" class="change-a_noani overflow"><%=sublist2.get(k).getGenreName() %></a></li>
 						
 						<%} %>
 					</ul>
@@ -151,10 +139,7 @@
 		for(var i=0;i<sub_menu.length;i++){
 			sub_menu[i].addEventListener("mouseover",function(){
 				var wid = -this.children[1].firstElementChild.offsetWidth;
-				console.dir(this.children[1]);
-				console.log(this.children[1]);
-				console.log(String(wid+1)+'px');
-				this.children[1].style.right=String(wid)+'px';
+				this.children[1].style.right=String(wid+1)+'px';
 			})
 		}
 	})
@@ -162,3 +147,4 @@
 <section style="min-height: 800px" class="container-1200">
 
 
+>>>>>>> refs/remotes/origin/minsoo

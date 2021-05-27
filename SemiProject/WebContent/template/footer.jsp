@@ -1,24 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 </section>
-<script>
-	function YesScroll(){
-		const pagination=document.querySelector(".infinite-pagination");
-		const fullContent=document.querySelector(".infinite");
-		const screenHeight=screen.height;
-		let oneTime=false;
-		document.addEventListener('scroll',OnScroll,{passive:true})
-		function OnScroll(){
-			const fullHeight=fullContent.clientHeight;
-			const scrollPosition=pageYOffset;
-			if(fullHeight-screenHeight/2>=scrollPosition&&!oneTime){
-				oneTime=true;
-				madeBox();
-			}
-			}
-		}
-	YesScroll();
-</script>
 <div class="line"></div>
 <footer class="container-1200 align-row ">
 	<div class="align-column" style="padding-bottom: 20px;align-items: flex-start;">
@@ -61,5 +43,10 @@
 		<p style="color:white;font-size: 12px;">회원번호 : <%=session.getAttribute("member") %></p>
 	</div>
 </div>
+
+
+	
+
+
 </body>
 </html>

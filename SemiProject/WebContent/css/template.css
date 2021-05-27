@@ -186,7 +186,7 @@
       }
       .overflow{
          overflow: hidden;
-           text-overflow: ellipsis;
+         text-overflow: ellipsis;
          white-space: nowrap;
       }
       .main-menu{
@@ -219,7 +219,7 @@
           color:white;
           transition: background-color 0.2s linear;
           position: absolute;
-          right: -129px;
+          right: -128px;
           top:0;
        }
        

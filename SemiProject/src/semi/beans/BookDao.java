@@ -10,7 +10,6 @@ import semi.beans.BookDto;
 
 public class BookDao {
 
-
    
    //등록 기능
    public void registBook(BookDto bookDto) throws Exception{
@@ -92,7 +91,42 @@ public class BookDao {
         con.close();
         
         return bookList;
-   }
+	}
+	
+	
+	
+	public List<BookDto> genreList(Long genreNo,int num) throws Exception{
+		Connection con = JdbcUtils.getConnection();
+		String sql="select * from (  "
+				+ "    select tmp.*,rownum rn from "
+				+ "        (select * from book where book_genre like '"+genreNo+"%' order by book_no desc"
+				+ "    )tmp"
+				+ ") where rn between ? and ?";
+		
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, num*20-19);
+		ps.setInt(2, num*20);
+        ResultSet rs = ps.executeQuery();
+        List<BookDto> bookList = new ArrayList<>();
+        while(rs.next()) {
+           BookDto bookDto = new BookDto();
+           bookDto.setBookNo(rs.getInt("book_no"));
+           bookDto.setBookTitle(rs.getString("book_title"));
+           bookDto.setBookImage(rs.getString("book_image"));
+           bookDto.setBookAuthor(rs.getString("book_author"));
+           bookDto.setBookPublisher(rs.getString("book_publisher"));
+           bookDto.setBookDescription(rs.getString("book_description"));
+           bookDto.setBookPrice(rs.getInt("book_price"));
+           bookDto.setBookDiscount(rs.getInt("book_discount"));
+           bookDto.setBookPubDate(rs.getDate("book_pubdate"));
+           bookDto.setBookGenreNo(rs.getLong("book_genre"));
+           bookList.add(bookDto);
+        }
+        
+        con.close();
+        
+        return bookList;
+	}
    
    public List<BookDto> list(int num) throws Exception{
       Connection con = JdbcUtils.getConnection();
@@ -192,7 +226,7 @@ public class BookDao {
  }
 
 public List<BookDto> genreSearch(long no) throws Exception{
-	Connection con = JdbcUtils.getConnection();;
+	Connection con = JdbcUtils.getConnection();
 	String sql="select * from book where book_genre=?";
 	PreparedStatement ps = con.prepareStatement(sql);
     ps.setLong(1, no);
@@ -222,4 +256,3 @@ public List<BookDto> genreSearch(long no) throws Exception{
 }
    
 }
-
