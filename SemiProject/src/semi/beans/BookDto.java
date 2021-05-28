@@ -32,12 +32,21 @@ public class BookDto {
 		return bookImage;
 	}
 	public void setBookImage(String bookImage) {
+
+		if(bookImage==null) {
+			this.bookImage="/SemiProject/image/nullbook.png";
+			return;
+		}
 		this.bookImage = bookImage;
 	}
 	public String getBookAuthor() {
 		return bookAuthor;
 	}
 	public void setBookAuthor(String bookAuthor) {
+		if(bookAuthor==null) {
+			this.bookAuthor="편집부";
+			return;
+		}
 		this.bookAuthor = bookAuthor;
 	}
 	public int getBookPrice() {
@@ -62,6 +71,10 @@ public class BookDto {
 		return bookDescription;
 	}
 	public void setBookDescription(String bookDescription) {
+		if(bookDescription==null) {
+			this.bookDescription = "책 소개가 없습니다";
+			return;
+		}
 		this.bookDescription = bookDescription;
 	}
 	public Date getBookPubDate() {
@@ -78,5 +91,5 @@ public class BookDto {
 	}
 	
 	
-
 }
+

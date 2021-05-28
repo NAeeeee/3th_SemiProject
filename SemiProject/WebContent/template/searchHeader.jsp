@@ -1,5 +1,3 @@
-
-
 <%@page import="java.util.List"%>
 <%@page import="semi.beans.GenreDto"%>
 <%@page import="semi.beans.GenreDao"%>
@@ -18,8 +16,7 @@
 		isLogin=true;
 		memberDto = memberDao.getMember(memberNo);
 	}
-	GenreDao genreDao=new GenreDao();
-	List<GenreDto> genreList=genreDao.topGenreList();
+	String keyword = request.getParameter("keyword");
 %>
 <!DOCTYPE html>
 <html>
@@ -56,33 +53,16 @@
 <header class="container-1200 align-column ">
 <div class="container-1200 align-row space-around">
 	<div class="logo-area ">
-		<div><a href="<%=root%>"><span>BOOKin</span></a></div>
+		<div><a href="<%=root%>"><span style="font-size: 40px">BOOKin</span></a></div>
 	</div>
-	<div class="search-form-area">
-		<form class="search-form" action="<%=root%>/book/bookSearch.jsp">
-			<input type="search" name="keyword" class="search-input">
+	<div style="width: 45%;margin-right: 200px;" class="search-form-area">
+		<form  class="search-form" action="<%=root%>/book/bookSearch.jsp">
+			<input style="width: 100%" type="search" name="keyword" class="search-input" value="<%=keyword%>">
 			
 			<button type="submit" class="search-btn"></button>
 		</form>
 	</div>
-	<div class="icon-area align-row">
-		<a class="icon-item align-column" href="#">
-			<img class ="icon" src="<%=root%>/image/like.svg">
-			<span>좋아요</span>
-		</a>
-		<a class="icon-item align-column" href="#">
-			<img class ="icon" src="<%=root%>/image/bag.svg">
-			<span>장바구니</span>
-		</a>
-		<a class="icon-item align-column" href="#">
-			<img class ="icon" src="<%=root%>/image/writing.svg">
-			<span>리뷰</span>
-		</a>
-		<a  class="icon-item align-column" href="#">
-			<img class ="icon" src="<%=root%>/image/gift.svg">
-			<span>이벤트</span>
-		</a>
-	</div>
+
 	<div class="searchrank-area">
 		<div class="searchrank-item border-bottom">
 			<div>
@@ -105,47 +85,7 @@
 		</div>
 	</div>
 </div>
-<div class="container-1200 align-row space-between">
-	<ul class="font-weight-900 ul-row main-menu">
-		<li><a class="site-color change-a" href="#">베스트</a></li>
-		<li><a class="site-color-red change-a"  href="#" >NEW</a></li>
-	<% for(int i=0;i<genreList.size();i++){ %>
-		<li>
-			<a class="change-a" href="?genre=<%=genreList.get(i).getGenreNo()%>"> <%=genreList.get(i).getGenreName() %></a>
-			<ul class="sub-menu">
-			<% 
-			List<GenreDto> sublist=	genreDao.childGenreList(genreList.get(i).getGenreNo());
-			for(int j =0;j<sublist.size();j++){ %>
-				<li>
-					<a href="?genre=<%=sublist.get(j).getGenreNo()%>" class="change-a_noani overflow"><%=sublist.get(j).getGenreName() %></a>
-					<ul class="sub-sub-menu">
-						<%
-						List<GenreDto> sublist2=genreDao.childGenreList(sublist.get(j).getGenreNo());
-						for(int k =0;k<sublist2.size();k++){ %>
-							<li><a href="?genre=<%=sublist2.get(k).getGenreNo()%>" class="change-a_noani overflow"><%=sublist2.get(k).getGenreName() %></a></li>
-						
-						<%} %>
-					</ul>
-				</li>
-			<%} %>
-			</ul>
-		</li>
-	<%} %>
-	</ul>
-</div>
+
 </header>
-<script>
-	window.addEventListener("load",function(){
-		var sub_menu = document.querySelectorAll(".sub-menu>li");
-		for(var i=0;i<sub_menu.length;i++){
-			sub_menu[i].addEventListener("mouseover",function(){
-				var wid = -this.children[1].firstElementChild.offsetWidth;
-				this.children[1].style.right=String(wid+1)+'px';
-			})
-		}
-	})
-</script>
+<div class="line" style=" margin-top: 20px;"></div>
 <section style="min-height: 800px" class="container-1200">
-
-
-
