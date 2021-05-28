@@ -4,10 +4,10 @@
 	pageEncoding="UTF-8"%>
 
 <%
-int qnaBoardNo = Integer.parseInt(request.getParameter("qnaBoardNo"));
-QnaBoardDao qnaboardDao = new QnaBoardDao();
-
-QnaBoardDto qnaboardDto = qnaboardDao.get(qnaBoardNo);
+	int qnaBoardNo = Integer.parseInt(request.getParameter("qnaBoardNo"));
+	QnaBoardDao qnaboardDao = new QnaBoardDao();
+	
+	QnaBoardDto qnaboardDto = qnaboardDao.get(qnaBoardNo);
 %>
 
 <jsp:include page="/template/header.jsp"></jsp:include>
@@ -161,10 +161,8 @@ QnaBoardDto qnaboardDto = qnaboardDao.get(qnaBoardNo);
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script>
-   $(function(){
-      //목표 : 시작하자마자 말머리를 boardDto의 값으로 설정(이 코드는 자바코드가 아님을 유의할 것)
-      $("select[name=qnaboardHeader]").val("<%=qnaboardDto.getQnaBoardHeader()%>
-	");
+	$(function(){
+		$("select[name=qnaBoardHeader]").val("<%=qnaboardDto.getQnaBoardHeader()%>");
 	});
 </script>
 
@@ -192,7 +190,7 @@ QnaBoardDto qnaboardDto = qnaboardDao.get(qnaBoardNo);
 			<div class="qna-row">
 				<span>문의유형</span>
 				<select name="qnaBoardHeader" class="qna-form-input" required>
-					<option value="">문의유형 선택</option>
+					<option value="">선택하세요</option>
 					<option>주문/결제</option>
 					<option>배송</option>
 					<option>환불/교환</option>

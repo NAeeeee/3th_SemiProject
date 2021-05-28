@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String root = request.getContextPath();
+%>
 </section>
 <div class="line"></div>
 <footer class="container-1200 align-row ">
@@ -24,7 +27,7 @@
 		<a href="#"><span class="small-font">2021 새로운 공지사항</span></a>
 		<a href="#"><span class="small-font">2021 새로운 공지사항</span></a>
 		<a href="#"><span class="small-font">2021 새로운 공지사항</span></a>
-		<a href="#"><span class="small-font">더보기 +</span></a>
+		<a href="<%=root%>/qna/qnaNotice.jsp"><span class="small-font">더보기 +</span></a>
 	</div>
 	<div class="align-column" style="align-items: flex-start;">
 		<h5>DELIVERY</h5>

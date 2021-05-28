@@ -1,3 +1,5 @@
+<%@page import="semi.beans.MemberDto"%>
+<%@page import="semi.beans.MemberDao"%>
 <%@page import="java.util.List"%>
 <%@page import="semi.beans.QnaBoardDto"%>
 <%@page import="semi.beans.QnaBoardDao"%>
@@ -266,7 +268,11 @@
 						<span style="color:#ff9f43; margin-left: 3px;">[<%=qnaBoardDto.getQnaBoardReply()%>]</span>
 					<%} %>	
 					</td>
-					<td><%=qnaBoardDto.getQnaBoardWriter() %></td>
+					<td><%MemberDao memberDao = new MemberDao();
+		               MemberDto memberDto = memberDao.getMember(qnaBoardDto.getQnaBoardWriter());
+		               String Id = memberDto.getMemberId();
+		               Id = Id.replaceAll(".(?=.{4})", "*");%>   
+                  	<%=Id %></td>
 					<td><%=qnaBoardDto.getQnaBoardTime() %></td>
 					<td>
 						<!-- 댓글 개수 0보다 클 경우 답변완료 -->

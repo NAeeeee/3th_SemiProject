@@ -160,6 +160,11 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+	$(function(){
+		$("select[name=noticeBoardHeader]").val("<%=noticeBoardDto.getNoticeBoardHeader()%>");
+	});
+</script>
 
 <div class="qna">
 

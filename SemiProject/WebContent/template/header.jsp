@@ -69,7 +69,7 @@
 			<img class ="icon" src="<%=root%>/image/writing.svg">
 			<span>리뷰</span>
 		</a>
-		<a  class="icon-item align-column" href="#">
+		<a  class="icon-item align-column" href="<%=root%>/qna/qnaNotice.jsp">
 			<img class ="icon" src="<%=root%>/image/gift.svg">
 			<span>이벤트</span>
 		</a>
