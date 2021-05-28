@@ -279,7 +279,7 @@ textarea.form-input {
 .pagination > a:hover,
 .pagination > a.on {
 	border:1px solid lightgray;
-	color:rgb(255,85,146);
+	color:#ff9f43;
 }
 
 .pagination-list {
@@ -306,7 +306,7 @@ textarea.form-input {
 }
 .pagination-list > li:hover > a,
 .pagination-list > li.on > a {
-	color:rgb(255,85,146);
+	color:#ff9f43;
 }
 
 
@@ -335,7 +335,7 @@ textarea.form-input {
 	float:right;
 }
 section{
-	margin:80px 0;
+	margin:40px 0;
 }
 select{
 	border:none;
@@ -354,4 +354,7 @@ select{
 .link-box > li{	
 	display:inline-block;
 	margin: 10px 20px 15px 20px;
+}
+.block{
+	display: block;
 }

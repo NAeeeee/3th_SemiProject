@@ -26,8 +26,8 @@
 	}else{
 		genreDto2=null;
 	}
-	List<BookDto> bookList=bookDao.authorsearch(bookDto.getBookAuthor());
-	List<BookDto> bookList2=bookDao.publishersearch(bookDto.getBookPublisher());
+	List<BookDto> bookList=bookDao.authorSearch(bookDto.getBookAuthor(),1,10);
+	List<BookDto> bookList2=bookDao.publisherSearch(bookDto.getBookPublisher(),1,10);
 	List<BookDto> bookList3=bookDao.genreSearch(bookDto.getBookGenreNo());
 	List<GenreDto> genreList=genreDao.sameGenreList(bookDto.getBookGenreNo());
 
