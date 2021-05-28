@@ -1,5 +1,14 @@
+<%@page import="semi.beans.NoticeBoardDto"%>
+<%@page import="semi.beans.NoticeBoardDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%
+	int noticeBoardNo = Integer.parseInt(request.getParameter("noticeBoardNo"));
+	NoticeBoardDao noticeBoardDao = new NoticeBoardDao();
+	
+	NoticeBoardDto noticeBoardDto = noticeBoardDao.get(noticeBoardNo);
+%>
 
 <jsp:include page="/template/header.jsp"></jsp:include>
 
@@ -146,7 +155,11 @@
 .qna-cancel:hover {
 	background-color: #d2d2d2;
 }
+
 </style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 <div class="qna">
 
@@ -154,50 +167,45 @@
 
 	<div class="tabmenu-black">
 		<a href="qnaList.jsp"> <span>고객의 소리</span>
-		</a> <a class="on" href="qnaInsert.jsp"> <span>1:1 문의 등록</span>
+		</a> <a href="qnaInsert.jsp"> <span>1:1 문의 등록</span>
 		</a> <a href="qnaMyList.jsp"> <span>1:1 문의 확인</span>
-		</a> <a href="qnaNotice.jsp"> <span>공지사항</span>
+		</a> <a class="on" href="qnaNotice.jsp"> <span>공지사항</span>
 		</a>
 	</div>
 
-	<h2 class="subtitle">문의등록</h2>
-
+	<h2 class="subtitle">NOTICE 수정</h2>
+	
 	<hr style="width: 1000px; margin: 0px auto;">
 
+	<!-- 보내야 할 항목 4개, 사용자가 고칠 수 있는 항목 3개, 히든 1개 -->
 	<div class="qna-insert">
-
-		<form action="qnaboardInsert.kh" method="post">
+		<form action="qnaNoticeEdit.kh" method="post">
+			<input type="hidden" name="noticeBoardNo" value="<%=noticeBoardDto.getNoticeBoardNo()%>">  
+			
 			<div class="qna-row">
-				<span>문의유형</span> 
-				<select name="qnaBoardHeader" class="qna-form-input" required>
-					<option value="">문의유형을 선택해주세요.</option>
-					<option>주문/결제</option>
-					<option>배송</option>
-					<option>환불/교환</option>
-					<option>기타</option>
-				</select>
+				<span>문의유형</span>
+				<select name="noticeBoardHeader" class="qna-form-input" required>
+					<option value="">선택</option>
+					<option>공지</option>
+					<option>이벤트</option>
+				</select> 
 			</div>
-
+			
 			<div class="qna-row">
 				<label>제목</label> 
-				<input class="qna-form-input" type="text" name="qnaBoardTitle" placeholder="제목을 입력해주세요." required>
+				<input class="qna-form-input" type="text" name="noticeBoardTitle" required value="<%=noticeBoardDto.getNoticeBoardTitle()%>">
 			</div>
-
+			
 			<div class="qna-row">
 				<label>내용</label>
-				<textarea class="qna-form-content" name="qnaBoardContent" placeholder="내용을 입력해주세요." required></textarea>
-			</div>
-
+				<textarea class="qna-form-content" name="noticeBoardContent" required><%=noticeBoardDto.getNoticeBoardContent()%></textarea>
+			</div>	
+			
 			<div class="qna-row-btn">
-				<input class="qna-form-btn" type="submit" value="등록하기"> 
-				<a class="qna-cancel" href="qnaList.jsp">취소</a>
+				<input class="qna-form-btn" type="submit" value="수정">
+				<a class="qna-cancel" href="qnaNoticeDetail.jsp?noticeBoardNo=<%=noticeBoardDto.getNoticeBoardNo()%>">취소</a>
 			</div>
 		</form>
 	</div>
-
-
-
 </div>
-
-
 <jsp:include page="/template/footer.jsp"></jsp:include>

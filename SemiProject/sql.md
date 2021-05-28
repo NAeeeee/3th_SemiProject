@@ -32,10 +32,12 @@ qna_board_header varchar2(15) check(qna_board_header in('주문/결제','배송'
 qna_board_title varchar2(300) not null,
 qna_board_content varchar2(4000) not null,
 qna_board_writer references member(member_no) on delete cascade,
-qna_board_time date default sysdate not null
+qna_board_time date default sysdate not null,
+qna_board_reply number default 0 not null
 );
 
 create sequence qna_board_seq nocache;
+<<<<<<< HEAD
 #book 테이블 생성, sequence 생성
 create table book(
 book_no number(10) primary key,
@@ -54,3 +56,15 @@ create sequence book_seq;
 
 
 
+
+
+#qna_reply 테이블 생성 , sequence생성(qna 답글 기능)
+CREATE TABLE qna_reply(
+qna_reply_no NUMBER(19) PRIMARY KEY,
+qna_reply_content varchar2(4000),
+qna_reply_time DATE DEFAULT sysdate NOT NULL,
+qna_reply_writer REFERENCES member(member_no) ON DELETE SET NULL,
+qna_reply_origin REFERENCES qna_board(qna_board_no) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE qna_reply_seq nocache;

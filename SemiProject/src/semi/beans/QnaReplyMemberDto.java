@@ -2,18 +2,22 @@ package semi.beans;
 
 import java.sql.Date;
 
-public class QnaReplyDto {
-	
+public class QnaReplyMemberDto {
+
 	private int qnaReplyNo;
 	private String qnaReplyContent;
 	private Date qnaReplyTime;
 	private int qnaReplyWriter;
 	private int qnaReplyOrigin;
-
-	public QnaReplyDto() {
+	
+	private int memberNo;
+	private String memberId;
+	private String memberAdmin;
+	
+	public QnaReplyMemberDto() {
 		super();
 	}
-	
+
 	public int getQnaReplyNo() {
 		return qnaReplyNo;
 	}
@@ -53,6 +57,31 @@ public class QnaReplyDto {
 	public void setQnaReplyOrigin(int qnaReplyOrigin) {
 		this.qnaReplyOrigin = qnaReplyOrigin;
 	}
+
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getMemberAdmin() {
+		return memberAdmin;
+	}
+
+	public void setMemberAdmin(String memberAdmin) {
+		this.memberAdmin = memberAdmin;
+	}
+
 	
 	
 	

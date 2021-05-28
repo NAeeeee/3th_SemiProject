@@ -34,7 +34,7 @@ public class QnaBoardInsertServlet extends HttpServlet{
          qnaBoardDao.write(qnaBoardDto);
          
          //출력 : 상세페이지로 이동
-         resp.sendRedirect("qnaList.jsp");
+         resp.sendRedirect("qnaBoardDetail.jsp?qnaBoardNo=" + qnaBoardDto.getQnaBoardNo());
       } 
       catch (Exception e) {
          e.printStackTrace();

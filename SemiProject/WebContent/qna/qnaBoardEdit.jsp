@@ -1,5 +1,14 @@
+<%@page import="semi.beans.QnaBoardDto"%>
+<%@page import="semi.beans.QnaBoardDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%
+int qnaBoardNo = Integer.parseInt(request.getParameter("qnaBoardNo"));
+QnaBoardDao qnaboardDao = new QnaBoardDao();
+
+QnaBoardDto qnaboardDto = qnaboardDao.get(qnaBoardNo);
+%>
 
 <jsp:include page="/template/header.jsp"></jsp:include>
 
@@ -146,7 +155,18 @@
 .qna-cancel:hover {
 	background-color: #d2d2d2;
 }
+
 </style>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+   $(function(){
+      //목표 : 시작하자마자 말머리를 boardDto의 값으로 설정(이 코드는 자바코드가 아님을 유의할 것)
+      $("select[name=qnaboardHeader]").val("<%=qnaboardDto.getQnaBoardHeader()%>
+	");
+	});
+</script>
 
 <div class="qna">
 
@@ -154,50 +174,47 @@
 
 	<div class="tabmenu-black">
 		<a href="qnaList.jsp"> <span>고객의 소리</span>
-		</a> <a class="on" href="qnaInsert.jsp"> <span>1:1 문의 등록</span>
-		</a> <a href="qnaMyList.jsp"> <span>1:1 문의 확인</span>
+		</a> <a href="qnaInsert.jsp"> <span>1:1 문의 등록</span>
+		</a> <a class="on" href="qnaMyList.jsp"> <span>1:1 문의 확인</span>
 		</a> <a href="qnaNotice.jsp"> <span>공지사항</span>
 		</a>
 	</div>
 
-	<h2 class="subtitle">문의등록</h2>
-
+	<h2 class="subtitle">문의 수정</h2>
+	
 	<hr style="width: 1000px; margin: 0px auto;">
 
+	<!-- 보내야 할 항목 4개, 사용자가 고칠 수 있는 항목 3개, 히든 1개 -->
 	<div class="qna-insert">
-
-		<form action="qnaboardInsert.kh" method="post">
+		<form action="qnaboardEdit.kh" method="post">
+			<input type="hidden" name="qnaBoardNo" value="<%=qnaboardDto.getQnaBoardNo()%>">  
+			
 			<div class="qna-row">
-				<span>문의유형</span> 
+				<span>문의유형</span>
 				<select name="qnaBoardHeader" class="qna-form-input" required>
-					<option value="">문의유형을 선택해주세요.</option>
+					<option value="">문의유형 선택</option>
 					<option>주문/결제</option>
 					<option>배송</option>
 					<option>환불/교환</option>
 					<option>기타</option>
-				</select>
+				</select> 
 			</div>
-
+			
 			<div class="qna-row">
 				<label>제목</label> 
-				<input class="qna-form-input" type="text" name="qnaBoardTitle" placeholder="제목을 입력해주세요." required>
+				<input class="qna-form-input" type="text" name="qnaBoardTitle" required value="<%=qnaboardDto.getQnaBoardTitle()%>">
 			</div>
-
+			
 			<div class="qna-row">
 				<label>내용</label>
-				<textarea class="qna-form-content" name="qnaBoardContent" placeholder="내용을 입력해주세요." required></textarea>
-			</div>
-
+				<textarea class="qna-form-content" name="qnaBoardContent" required><%=qnaboardDto.getQnaBoardContent()%></textarea>
+			</div>	
+			
 			<div class="qna-row-btn">
-				<input class="qna-form-btn" type="submit" value="등록하기"> 
-				<a class="qna-cancel" href="qnaList.jsp">취소</a>
+				<input class="qna-form-btn" type="submit" value="수정">
+				<a class="qna-cancel" href="qnaBoardDetail.jsp?qnaBoardNo=<%=qnaboardDto.getQnaBoardNo()%>">취소</a>
 			</div>
 		</form>
 	</div>
-
-
-
 </div>
-
-
 <jsp:include page="/template/footer.jsp"></jsp:include>

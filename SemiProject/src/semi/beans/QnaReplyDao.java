@@ -27,11 +27,12 @@ public class QnaReplyDao {
 	public boolean edit(QnaReplyDto qnaReplyDto) throws Exception{
 		Connection con = JdbcUtils.getConnection();
 		
-		String sql = "update qna_reply set qna_reply_content=? where qna_reply_no=? and qna_reply_writer=?";
+		String sql = "update qna_reply set qna_reply_content=?, qna_reply_time=sysdate where qna_reply_no=? and qna_reply_writer=? and qna_reply_origin=?";
 		PreparedStatement ps = con.prepareStatement(sql);
 		ps.setString(1, qnaReplyDto.getQnaReplyContent());
 		ps.setInt(2, qnaReplyDto.getQnaReplyNo());
 		ps.setInt(3, qnaReplyDto.getQnaReplyWriter());
+		ps.setInt(4, qnaReplyDto.getQnaReplyOrigin());
 		
 		int count = ps.executeUpdate();
 		
@@ -96,5 +97,7 @@ public class QnaReplyDao {
 		con.close();
 		return result;
 	}
+	
+	
 	
 }

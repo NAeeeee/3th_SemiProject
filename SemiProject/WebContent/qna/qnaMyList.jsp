@@ -255,15 +255,27 @@
 					<th>답변여부</th>
 				</tr>
 			</thead>
-			<tbody>
 			<%for(QnaBoardDto qnaBoardDto : myList){ %>
+			<tbody>
 				<tr>
 					<td><%=qnaBoardDto.getQnaBoardNo() %></td>
 					<td><%=qnaBoardDto.getQnaBoardHeader() %></td>
-					<td><a href="qnaBoardDetail.jsp?qnaBoardNo=<%=qnaBoardDto.getQnaBoardNo()%>"><%=qnaBoardDto.getQnaBoardTitle() %></a></td>
+					<td><a href="qnaBoardDetail.jsp?qnaBoardNo=<%=qnaBoardDto.getQnaBoardNo()%>"><%=qnaBoardDto.getQnaBoardTitle() %></a>
+					<%if(qnaBoardDto.getQnaBoardReply() > 0){ %>
+						<!-- 댓글 개수 출력 : 0보다 클 경우만 출력 -->
+						<span style="color:#ff9f43; margin-left: 3px;">[<%=qnaBoardDto.getQnaBoardReply()%>]</span>
+					<%} %>	
+					</td>
 					<td><%=qnaBoardDto.getQnaBoardWriter() %></td>
 					<td><%=qnaBoardDto.getQnaBoardTime() %></td>
-					<td>답변대기</td>
+					<td>
+						<!-- 댓글 개수 0보다 클 경우 답변완료 -->
+						<%if(qnaBoardDto.getQnaBoardReply() > 0){ %>							
+							답변완료
+						<%}	else{ %>
+							답변대기
+						<%} %>
+					</td>
 				<tr>
 			</tbody>
 			<%} %>
