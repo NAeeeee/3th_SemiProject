@@ -196,7 +196,7 @@
 			<a href="#">8</a> 
 			<a href="#">9</a> 
 			<a href="#">10</a>
-			<a href="#">&gt;다음</a>
+			<a href="#">다음&gt;</a>
 	</div>
 </div>
 

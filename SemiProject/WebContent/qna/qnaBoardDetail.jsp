@@ -102,7 +102,7 @@
 }
 
 .notice-regit-reply {
-	width: 950px;
+	width: 960px;
 	min-height: 130px;
 	margin-top: 0px;
 	margin-bottom: 10px;
@@ -135,7 +135,7 @@
 }
 
 .notice-reply-line{
-	width: 930px;
+	width: 940px;
     border-top: 1px solid #cfcfcf;
     min-height: 10px;
     margin-top: 20px;
@@ -143,7 +143,7 @@
 
 .notice-reply{ 
 	padding: 0px 10px 5px 10px;
-	width: 950px;
+	width: 940px;
 }
 
 .regit-btn{
@@ -151,9 +151,9 @@
 }
 
 .notice-bottom{
-	width: 950px; 
-	margin: 30px 10px 5px 0px;
-	padding: 7px 0 5px 0;
+	width: 1000px; 
+	margin: 20px auto;
+	padding: 7px 20px 5px 0;
 	text-align: right;	
 }
 
@@ -272,7 +272,7 @@
         <a href="qnaboardDelete.kh?qnaBoardNo=<%=qnaBoardNo%>" >삭제</a>
         <a class="notice-list" href="qnaMyList.jsp">나의 1:1 문의목록</a>
      </div>
-		<div class="notice-reply-line" style="margin-left:10px;">	</div>
+		<div class="notice-reply-line" style="margin-left:8px;">	</div>
 					
 		<div class="notice-reply">
 			<%if(list != null) { %>

@@ -344,8 +344,8 @@
 				</tr>
 			</thead>
 			
-			<%for(QnaBoardDto boardDto : list){ %>
 			<tbody>
+			<%for(QnaBoardDto boardDto : list){ %>			
 				<tr>
 					<td ><%=boardDto.getQnaBoardNo() %></td>
 					<td ><%=boardDto.getQnaBoardHeader() %></td>
@@ -381,9 +381,9 @@
 							<td class="q1-a1" colspan="5" style="text-align: left;"><%=qnaReplyDto.getQnaReplyContent() %></td>						
 						</tr>
 					<%} %>
-				<%} %>
-			</tbody>
+				<%} %>			
 			<%} %>	
+			</tbody>
 		</table>
 	</div>
 	
