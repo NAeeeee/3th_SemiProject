@@ -37,7 +37,42 @@ qna_board_reply number default 0 not null
 );
 
 create sequence qna_board_seq nocache;
-<<<<<<< HEAD
+
+#qna_reply 테이블, 시퀀스 생성
+DROP TABLE qna_reply;
+CREATE TABLE qna_reply(
+qna_reply_no NUMBER(19) PRIMARY KEY,
+qna_reply_content varchar2(4000),
+qna_reply_time DATE DEFAULT sysdate NOT NULL,
+qna_reply_writer REFERENCES member(member_no) ON DELETE SET NULL,
+qna_reply_origin REFERENCES qna_board(qna_board_no) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE qna_reply_seq nocache;
+
+#(qna_reply , member) join view 생성
+DROP VIEW qna_reply_member;
+CREATE VIEW qna_reply_member AS
+SELECT 
+	R.qna_reply_no, R.qna_reply_content, R.qna_reply_time, R.qna_reply_writer, R.qna_reply_origin,
+	M.member_no, M.member_id, M.member_admin
+FROM qna_reply R
+	LEFT OUTER JOIN MEMBER M ON R.qna_reply_writer = M.member_no;
+
+
+#notice 테이블 , 시퀀스 생성
+create table notice_board(
+notice_board_no number(19) primary key,
+notice_board_header varchar2(15) check(notice_board_header in('공지','이벤트')) not null,
+notice_board_title varchar2(300) not null,
+notice_board_content varchar2(4000) not null,
+notice_board_writer references member(member_no) on delete cascade,
+notice_board_time date default sysdate not null,
+notice_board_read number default 0 not null
+);
+
+CREATE SEQUENCE notice_seq nocache;	
+
 #book 테이블 생성, sequence 생성
 create table book(
 book_no number(10) primary key,
@@ -57,14 +92,3 @@ create sequence book_seq;
 
 
 
-
-#qna_reply 테이블 생성 , sequence생성(qna 답글 기능)
-CREATE TABLE qna_reply(
-qna_reply_no NUMBER(19) PRIMARY KEY,
-qna_reply_content varchar2(4000),
-qna_reply_time DATE DEFAULT sysdate NOT NULL,
-qna_reply_writer REFERENCES member(member_no) ON DELETE SET NULL,
-qna_reply_origin REFERENCES qna_board(qna_board_no) ON DELETE CASCADE
-);
-
-CREATE SEQUENCE qna_reply_seq nocache;

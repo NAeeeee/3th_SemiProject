@@ -22,7 +22,7 @@
 		<div class="line-nomargin"></div>
 		<h5 style="padding:0.5rem 0">NOTICE</h5>
 		<div  class="line "></div>
-		<a href="#"><span class="small-font">2021 새로워진 BOOKin</span></a>		
+		<a href="#"><span class="small-font">2021 새로워진 BOOKin</span></a>
 		<a href="#"><span class="small-font">2021 적립금 안내</span></a>
 		<a href="#"><span class="small-font">2021 새로운 공지사항</span></a>
 		<a href="#"><span class="small-font">2021 새로운 공지사항</span></a>
