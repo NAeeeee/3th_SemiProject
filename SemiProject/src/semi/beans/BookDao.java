@@ -6,11 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-import semi.beans.JdbcUtils;
-import semi.beans.BookDto;
-
 public class BookDao {
 
 	// 등록 기능
@@ -394,3 +389,4 @@ public class BookDao {
 	}
 
 }
+

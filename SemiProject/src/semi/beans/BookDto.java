@@ -32,6 +32,7 @@ public class BookDto {
 		return bookImage;
 	}
 	public void setBookImage(String bookImage) {
+
 		if(bookImage==null) {
 			this.bookImage="/SemiProject/image/nullbook.png";
 			return;
@@ -91,3 +92,4 @@ public class BookDto {
 	
 	
 }
+
